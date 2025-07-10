@@ -86,9 +86,9 @@ class MainScreen extends StatelessWidget {
         boxShadow: [ BoxShadow( blurRadius: 4, color: Colors.grey.shade300, offset: Offset(5, 5) )],
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.tertiary,
-            Theme.of(context).colorScheme.secondary,
             Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.secondary,
+            Theme.of(context).colorScheme.tertiary,
           ],
           transform: const GradientRotation(pi/4),
         ),
@@ -98,10 +98,11 @@ class MainScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(height: 15),
           const Text("Total Balance", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600)),
-          SizedBox(height: 10),
-          const Text("£ 4000.00", style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
+          SizedBox(height: 5),
+          const Text("£ 4800.00", style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.w600)),
+          SizedBox(height: 5),
 
           //Income row
           Padding(
