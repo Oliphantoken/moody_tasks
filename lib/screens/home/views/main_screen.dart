@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,56 +15,11 @@ class MainScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //"App Bar" part
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //Left side: Profile row
-              Row(
-                children: [
-                  //Profile Icon
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      //Bg circle
-                      Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.yellow[700],)),
-                      //Profile icon
-                      Icon(CupertinoIcons.person_fill, color: Colors.yellow[800]),
-                    ],
-                  ),
-              
-                  //Column for vertical text order
-                  Column(
-                    children: [
-                      //Greeting
-                      Text("Welcome!", style: TextStyle( fontSize: 12, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.outline)),
-                      Text("John Doe!", style: TextStyle( fontSize: 18, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface)),
-                    ]
-                  ),
-                    
-                ],
-              ),
+          _ShowAppBar(context), //"App Bar" part
 
-              //Right side: action buttons
-              IconButton(
-                icon: Icon(CupertinoIcons.settings),
-                onPressed: () {
-                },
-              ),
-              
-
-            ],
-          ),
-
-          //Card Box
-          Container (
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width/2,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          )
-
+          const SizedBox(height: 20),
+          
+          _showCardbox(context), //Card Box
         ]
       
       
@@ -70,4 +27,163 @@ class MainScreen extends StatelessWidget {
     );
   }
 
+///App bar are
+  Padding _ShowAppBar(BuildContext context){
+    return Padding(
+      
+      padding: const EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          //Left side: Profile row
+          Row(
+            children: [
+              //Profile Icon
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  //Bg circle
+                  Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.yellow[700],)),
+                  //Profile icon
+                  Icon(CupertinoIcons.person_fill, color: Colors.yellow[800]),
+                ],
+              ),
+          
+              //Column for vertical text order
+              Column(
+                children: [
+                  //Greeting
+                  Text("Welcome!", style: TextStyle( fontSize: 12, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.outline)),
+                  Text("John Doe!", style: TextStyle( fontSize: 18, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface)),
+                ]
+              ),
+                
+            ],
+          ),
+      
+          //Right side: action buttons
+          IconButton(
+            icon: Icon(CupertinoIcons.settings),
+            onPressed: () {
+            },
+          ),
+      
+        ],
+      ),
+    );
+  }
+
+///Card box area
+  Container _showCardbox(BuildContext context){
+    return Container (
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.width/2,
+
+      //Background
+      decoration: BoxDecoration(
+        color: Colors.blue,
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [ BoxShadow( blurRadius: 4, color: Colors.grey.shade300, offset: Offset(5, 5) )],
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.tertiary,
+            Theme.of(context).colorScheme.secondary,
+            Theme.of(context).colorScheme.primary,
+          ],
+          transform: const GradientRotation(pi/4),
+        ),
+      ),
+
+      //Content
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("Total Balance", style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600)),
+          SizedBox(height: 10),
+          const Text("£ 4000.00", style: TextStyle(fontSize: 40, color: Colors.white, fontWeight: FontWeight.bold)),
+          SizedBox(height: 10),
+
+          //Income row
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Row (
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+            
+                //Income part
+                Row (
+                  children: [
+                    //Down Arrow Icon
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Container (
+                        width: 25,
+                        height: 25,
+                        decoration: const BoxDecoration(
+                          color: Colors.greenAccent,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(CupertinoIcons.arrow_down, size: 12),
+                        )
+                      ),
+                    ),
+            
+                    const SizedBox(width: 8),
+            
+                    //Income text
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Income", style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                        Text("£ 2500.00", style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                      ],
+                    )
+            
+                  ]
+                ),
+            
+            
+                //Estimations part
+                Row (
+                  children: [
+            
+                    //Down Arrow Icon
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Container (
+                        width: 25,
+                        height: 25,
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Center(
+                          child: Icon(CupertinoIcons.arrow_down, size: 12),
+                        )
+                      ),
+                    ),
+            
+                    const SizedBox(width: 8),
+            
+                    //Income column
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Expenses", style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                        Text("£ 800.00", style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w600)),
+                      ],
+                    )
+            
+                  ]
+                )
+              ]
+            ),
+          )
+        ],
+      
+      ),
+
+    );
+  }
 }
