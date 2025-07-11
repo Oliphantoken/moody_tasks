@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:expense_tracker/data/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,15 @@ class MainScreen extends StatelessWidget {
           const SizedBox(height: 20),
           
           _showCardbox(context), //Card Box
+
+          const SizedBox(height: 20),
+
+          _showTransactionsTitle(context), //Transactions title row
+
+          const SizedBox(height: 5),
+
+          _showTransactionsList(context, transactionsData.length),
+          
         ]
       
       
@@ -187,4 +196,97 @@ class MainScreen extends StatelessWidget {
 
     );
   }
+
+///Transactions title row
+  Row _showTransactionsTitle(BuildContext context){
+    return Row (
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+        
+            //Transactions title row
+            Text("Transactions", style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.bold)),
+            //TextButton( onPressed:(){}, child: Text("View All", style: TextStyle(color: Colors.grey, fontSize: 14)) ),
+            GestureDetector( onTap:(){}, child: Text("View All", style: TextStyle(fontSize: 14, color: Colors.grey)) ),
+          ],
+        );
+  }
+
+///Transactions list view
+  Expanded _showTransactionsList(BuildContext context, int itemCount){
+    return Expanded(
+
+      child: ListView.builder(
+        itemCount: itemCount,
+        itemBuilder: (context, int i) {
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            
+            //Container for each list item
+            child: Container(
+            
+              //Item container background
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+
+              //Item row      
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+
+                    //Left: Item icon and name
+                    Row(
+                      children: [
+
+                        //Icon
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container (
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: transactionsData[i]["color"],
+                                shape: BoxShape.circle
+                              ),
+                            ),
+                            transactionsData[i]["icon"],
+                          ],
+                        ),
+                    
+                        SizedBox(width: 12),
+                    
+                        //Item name
+                        Text(transactionsData[i]['name'], style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),                   
+                      ]
+                    ),
+
+                    //Right: item cost and date
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(transactionsData[i]['totalAmount'], style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.onSurface, fontWeight: FontWeight.w500)),
+                        Text(transactionsData[i]['date'], style: TextStyle(fontSize: 14, color: Theme.of(context).colorScheme.outline, fontWeight: FontWeight.w500)),
+                        
+                      ]
+                    ),
+
+                  ], //Big row
+                ),
+
+                
+              )
+              
+            ),
+          ); 
+        
+        }
+      ),
+    );
+  }
+
 }
