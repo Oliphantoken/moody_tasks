@@ -1,18 +1,29 @@
 import 'dart:math';
+import 'package:expense_tracker/screens/Stats/stats_screen.dart';
+import 'package:expense_tracker/screens/add_expense/views/add_expense.dart';
 import 'package:expense_tracker/screens/home/views/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int screenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(),
-
-      body: const MainScreen(),
-
+      body: [     //Instead of a switch statement, will go through incrementally
+        const MainScreen(),
+        const StatScreen()
+      ][screenIndex],
+        
+        
       //Bottom Nav Bar
       bottomNavigationBar: _drawBottomNavigationBar(context),
 
@@ -33,9 +44,16 @@ class HomeScreen extends StatelessWidget {
       ),
 
       child: BottomNavigationBar (
+        
+        //Screen buttons
+        onTap: (value) {
+          setState( (){screenIndex = value; } );
+        },
+
+        currentIndex: screenIndex,
         backgroundColor: Colors.white,
         elevation: 3,
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
         items: const [
 
@@ -64,7 +82,11 @@ class HomeScreen extends StatelessWidget {
 
       child: FloatingActionButton(
         shape: const CircleBorder(),
-        onPressed: (){},  // Add action here!
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const AddExpense()
+          ));
+        },
       
         child: Container(
           width: 50,
@@ -87,6 +109,7 @@ class HomeScreen extends StatelessWidget {
         ),
     );
   }
+
 
 }
 

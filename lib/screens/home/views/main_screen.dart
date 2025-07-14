@@ -8,30 +8,32 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        
+        //Vertically list of things
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _ShowAppBar(context), //"App Bar" part
       
-      //Vertically list of things
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ShowAppBar(context), //"App Bar" part
-
-          const SizedBox(height: 20),
-          
-          _showCardbox(context), //Card Box
-
-          const SizedBox(height: 20),
-
-          _showTransactionsTitle(context), //Transactions title row
-
-          const SizedBox(height: 5),
-
-          _showTransactionsList(context, transactionsData.length),
-          
-        ]
+            const SizedBox(height: 20),
+            
+            _showCardbox(context), //Card Box
       
+            const SizedBox(height: 20),
       
+            _showTransactionsTitle(context), //Transactions title row
+      
+            const SizedBox(height: 5),
+      
+            _showTransactionsList(context, transactionsData.length),
+            
+          ]
+        
+        
+        ),
       ),
     );
   }
