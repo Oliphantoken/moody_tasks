@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:expense_tracker/screens/Stats/chart.dart';
+import 'package:expense_tracker/screens/stats/chart.dart';
 import 'package:flutter/material.dart';
 
 class StatScreen extends StatelessWidget {
