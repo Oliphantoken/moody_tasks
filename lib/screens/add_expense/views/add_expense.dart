@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -17,8 +16,6 @@ class _AddExpenseState extends State<AddExpense> {
   TextEditingController dateController = TextEditingController();
 
   DateTime _savedDate = DateTime.now();
-  String _selectedIcon = "";
-
   List<String> categoryIcons = [
     'distance',
     'food',
@@ -31,7 +28,6 @@ class _AddExpenseState extends State<AddExpense> {
     'receipt',
     'shopping-bag',
   ];
-
 
   @override
   void initState(){
@@ -57,6 +53,7 @@ class _AddExpenseState extends State<AddExpense> {
   }
 
   SingleChildScrollView _showForm(BuildContext context){
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -67,48 +64,27 @@ class _AddExpenseState extends State<AddExpense> {
             Text("Add Expense", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
 
             //EXPENSE AMOUNT FIELD
-            showTextfield(expenseController, 0.7, "", false, 30, FontAwesomeIcons.dollarSign, (){}, null),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width * 0.7,
-            //   child: TextFormField(
-            //     controller: expenseController,
-            //     //onTap: (value){
-
-            //    // },
-            //     decoration: InputDecoration(
-            //       prefixIcon: Icon(FontAwesomeIcons.dollarSign, size: 16, color: Colors.grey,),
-            //       filled: true,
-            //       fillColor: Colors.white,
-            //       border: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(30),
-            //         borderSide: BorderSide.none
-            //       )
-            //     ),
-            //   ),
-            // ),      
+            _showTextfield(expenseController, 0.7, "", false, 30, FontAwesomeIcons.dollarSign, (){}, null),    
 
             const SizedBox(height: 32),
 //------------------------------------------------
             
             //CATEGORY FIELD
-            showTextfield( categoryController, 1, "Category", true, 12, FontAwesomeIcons.list, (){}, IconButton (
+            _showTextfield( categoryController, 1, "Category", true, 12, FontAwesomeIcons.list, (){}, IconButton (
                 onPressed: () {
                   showDialog(context: context, builder: (ctx){
-
-                    return createCategory(ctx);
-                    }
-                  );
+                    return _createCategory(ctx);   //------------ CREATE A NEW CATEGORY
+                  });
                 },
-
                 icon: Icon(FontAwesomeIcons.circlePlus, size: 16, color: Colors.grey)
-                )
+              )
             ),
 
             const SizedBox(height: 16),
 //------------------------------------------------
 
             //DATE FIELD
-            showTextfield(dateController, 1, "Date", true, 12, FontAwesomeIcons.clock, 
+            _showTextfield(dateController, 1, "Date", true, 12, FontAwesomeIcons.clock, 
                 () async {
                   DateTime? newDate = await showDatePicker(context: context, initialDate: _savedDate, firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 365)));
 
@@ -122,53 +98,12 @@ class _AddExpenseState extends State<AddExpense> {
 
             null ),
 
-            // SizedBox(
-            //   child: TextFormField(
-            //     controller: dateController,
-            //     textAlignVertical: TextAlignVertical.center,
-            //     readOnly: true,
-
-            //     onTap: () async {
-            //       DateTime? newDate = await showDatePicker(context: context, initialDate: _savedDate, firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 365)));
-
-            //       if(newDate != null){
-            //         setState(() {
-            //           dateController.text = DateFormat('dd/MM/yyyy').format(newDate);
-            //           _savedDate = newDate;
-            //         });
-            //       }
-            //     },
-
-            //     decoration: InputDecoration(
-            //       prefixIcon: Icon(FontAwesomeIcons.clock, size: 16, color: Colors.grey,),
-            //       filled: true,
-            //       fillColor: Colors.white,
-            //       hintText: "Date",
-            //       border: OutlineInputBorder(
-            //         borderRadius: BorderRadius.circular(12),
-            //         borderSide: BorderSide.none
-            //       )
-            //     ),
-            //   ),
-            // ),
-
-            const SizedBox(height: 32),
+            const SizedBox(height: 128),
+//------------------------------------------------
 
             //SAVE BUTTON
-            SizedBox(
-              width: double.infinity,
-              height: kToolbarHeight,
-              child: TextButton(
-                onPressed: (){},
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)
-                  )
-                ),
-                child: const Text("Save", style: TextStyle(fontSize: 22, color: Colors.white))
-              )
-            ),
+            _showSaveButton(null),
+           
           ]
       
         ),
@@ -177,7 +112,7 @@ class _AddExpenseState extends State<AddExpense> {
   }
 
 
-  SizedBox showTextfield(TextEditingController controller, double boxwidth, String hinttext, bool isreadonly, double borderradius, IconData? prefixicon, GestureTapCallback? onTap, IconButton? suffixiconbutton){
+  SizedBox _showTextfield(TextEditingController controller, double boxwidth, String hinttext, bool isreadonly, double borderradius, IconData? prefixicon, GestureTapCallback? onTap, IconButton? suffixiconbutton){
     return SizedBox(
       width: MediaQuery.of(context).size.width * boxwidth,
       child: TextFormField(
@@ -200,30 +135,11 @@ class _AddExpenseState extends State<AddExpense> {
             
   }
 
-//  SizedBox(
-//     width: MediaQuery.of(context).size.width * 0.7,
-//     child: TextFormField(
-//       controller: expenseController,
-//       //onTap: (value){
 
-//       // },
-//       decoration: InputDecoration(
-//         prefixIcon: Icon(FontAwesomeIcons.dollarSign, size: 16, color: Colors.grey,),
-//         filled: true,
-//         fillColor: Colors.white,
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(30),
-//           borderSide: BorderSide.none
-//         )
-//       ),
-//     ),
-//   ),      
-
-
-
-  StatefulBuilder createCategory(BuildContext ctx) {
+  StatefulBuilder _createCategory(BuildContext ctx) {
     bool isExpanded = false;
-    Color _pickedColor = Colors.white;
+    String selectedIcon = "";
+    Color categoryColor = Colors.white;
 
     return StatefulBuilder(
       builder: (context, setState) {
@@ -235,131 +151,87 @@ class _AddExpenseState extends State<AddExpense> {
               children: [
                 
                 //SELECT NAME
-                TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  readOnly: false,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none
-                    )
-                  ), 
-                ),
+                _showCategoryTextFormField("Name", readonly: false),
         
                 const SizedBox(height: 16),
-        
+
                 //SELECT ICON
-                TextFormField(
-                  onTap: (){
+                _showCategoryTextFormField("Icon", isexpanded: isExpanded, suffixicon: FontAwesomeIcons.chevronDown, ontap: (){
                     setState(() {
                       isExpanded = !isExpanded;
                     });
-                  },
-                  textAlignVertical: TextAlignVertical.center,
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Icon",
-                    suffixIcon: Icon(FontAwesomeIcons.chevronDown, size: 12, color: Colors.grey),
-                    border: OutlineInputBorder(
-                      borderRadius: isExpanded
-                    ? BorderRadius.vertical(
-                      top: Radius.circular(12),
-                    )
-                    : BorderRadius.circular(12),
-                      borderSide: BorderSide.none
-                    )
-                  ), 
-                ),
+                  }),
 
                 //Show Icon Picker?
                 isExpanded
                 ? Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      bottom: Radius.circular(12),
-                    )
-                  ),
+                    width: MediaQuery.of(context).size.width,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        bottom: Radius.circular(12),
+                      )
+                    ),
                 
-                //Icon list
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 5, crossAxisSpacing: 5),
-                    itemCount: categoryIcons.length,
-                    itemBuilder: (context, int i){
-                      return GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _selectedIcon = categoryIcons[i];
-                          },);
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 3,
-                              color: _selectedIcon == categoryIcons[i] ? Colors.green : Colors.grey,
+                    //Icon list
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 5, crossAxisSpacing: 5),
+                        itemCount: categoryIcons.length,
+                        itemBuilder: (context, int i){
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedIcon = categoryIcons[i];
+                              },);
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 3,
+                                  color: selectedIcon == categoryIcons[i] ? Colors.green : Colors.grey,
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(image: AssetImage('assets/icons/${categoryIcons[i]}.png'))
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(image: AssetImage('assets/icons/${categoryIcons[i]}.png'))
-                          ),
-                        ),
-                      );
-                    }
-                  
-                  ),
-                )
+                          );
+                        }
+                      
+                      ),
+                    )
               )
               : Container(),
         
                 const SizedBox(height: 16),
         
                 //SELECT COLOUR
-                TextFormField(
-                  textAlignVertical: TextAlignVertical.center,
-                  readOnly: true,
-                  onTap: () {
-                    showDialog(context: context,
+                _showCategoryTextFormField("Colour", readonly: true, fillcolor: categoryColor, ontap: 
+                 () {
+                    //SHOW COLOR PICKER
+                    showDialog(
+                      context: context,
                       builder: (ctx2){
 
                         return AlertDialog (
-                          content: Column(
+                          content: Column (
                             mainAxisSize: MainAxisSize.min,
+                        
                             children: [
-                              ColorPicker( pickerColor:_pickedColor, onColorChanged: (value) {
-
-
+                              ColorPicker( pickerColor:Colors.white, pickerAreaHeightPercent: 0.8, onColorChanged: (value) {
+                                setState((){
+                                  categoryColor = value;
+                                });
+                        
                               }),
-
+                        
                               //COLOR SAVE BUTTON
-                              // SizedBox(
-                              //   width: double.infinity,
-                              //   height: 50,
-                              //   child: TextButton(
-                              //     onPressed: (){
-                              //       Navigator.pop(ctx2);
-                              //     },
-                              //     style: TextButton.styleFrom(
-                              //       backgroundColor: Colors.black,
-                              //       shape: RoundedRectangleBorder(
-                              //         borderRadius: BorderRadius.circular(12)
-                              //       )
-                              //     ),
-                              //     child: const Text("Save", style: TextStyle(fontSize: 22, color: Colors.white))
-                              //   )
-                              // ),
-
+                              _showSaveButton((){ Navigator.pop(ctx2); }),
+                        
                             ],
                           ),
                         );
@@ -367,18 +239,12 @@ class _AddExpenseState extends State<AddExpense> {
                       }
                     );
                   },
-
-                  decoration: InputDecoration(
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Colour",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none
-                    )
-                  ), 
                 ),
+
+                SizedBox(height: 32,),
+
+                //Save new category
+                _showSaveButton((){}),
         
               ]
             ),
@@ -388,7 +254,50 @@ class _AddExpenseState extends State<AddExpense> {
     );
 
   }
+  
 
+  ///This method draws a textform field configured for the "Create New Category" modal.
+  TextFormField _showCategoryTextFormField(String hinttext,{ bool readonly = true, bool isexpanded=false, Color fillcolor=Colors.white, IconData? suffixicon=null, Function()? ontap=null}){
+    return TextFormField(
+      onTap: ontap,
+      textAlignVertical: TextAlignVertical.center,
+      readOnly: readonly,
+      decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        fillColor: fillcolor,
+        hintText: hinttext,
+        suffixIcon: suffixicon != null ? Icon(suffixicon, size: 12, color: Colors.grey) : null,
+        border: OutlineInputBorder(
+          borderRadius: isexpanded
+          ? BorderRadius.vertical(
+            top: Radius.circular(12),
+          )
+          : BorderRadius.circular(12),
+          borderSide: BorderSide.none
+        )
+      ), 
+    );
+  }
+
+
+///This method shows a black Save button, used in both the screen and the followup modals
+SizedBox _showSaveButton(Function()? onpressed){
+  return SizedBox(
+    width: MediaQuery.of(context).size.width * 0.5,
+    height: 50,
+    child: TextButton(
+      onPressed: onpressed,
+      style: TextButton.styleFrom(
+        backgroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12)
+        )
+      ),
+      child: const Text("Save", style: TextStyle(fontSize: 20, color: Colors.white))
+    )
+  );
+ }
 
 
 }
