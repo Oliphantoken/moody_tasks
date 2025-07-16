@@ -244,7 +244,7 @@ class _AddExpenseState extends State<AddExpense> {
                 SizedBox(height: 32,),
 
                 //Save new category
-                _showSaveButton((){}),
+                _showSaveButton((){ Navigator.pop(ctx); }),
         
               ]
             ),
