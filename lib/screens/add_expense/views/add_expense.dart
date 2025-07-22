@@ -1,7 +1,11 @@
+import 'package:expense_repository/expense_repository.dart';
+import 'package:expense_tracker/screens/add_expense/blocs/create_category_bloc/create_category_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -72,9 +76,10 @@ class _AddExpenseState extends State<AddExpense> {
             //CATEGORY FIELD
             _showTextfield( categoryController, 1, "Category", true, 12, FontAwesomeIcons.list, (){}, IconButton (
                 onPressed: () {
-                  showDialog(context: context, builder: (ctx){
-                    return _createCategory(ctx);   //------------ CREATE A NEW CATEGORY
-                  });
+                  //showDialog(context: context, builder: (ctx){
+                    _createCategory(context);   //------------ CREATE A NEW CATEGORY
+                  //}
+                  //);
                 },
                 icon: Icon(FontAwesomeIcons.circlePlus, size: 16, color: Colors.grey)
               )
@@ -136,129 +141,170 @@ class _AddExpenseState extends State<AddExpense> {
   }
 
 
-  StatefulBuilder _createCategory(BuildContext ctx) {
-    bool isExpanded = false;
-    String selectedIcon = "";
-    Color categoryColor = Colors.white;
+ Future _createCategory(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (ctx) {
+      bool isExpanded = false;
+      String selectedIcon = "";
+      Color categoryColor = Colors.white;
+      Category category = Category.empty;
+      TextEditingController categoryNameController = TextEditingController();
 
-    return StatefulBuilder(
-      builder: (context, setState) {
-
-        return AlertDialog (
-            title: Text("Create a Category"),
-            content: Column (
-              mainAxisSize: MainAxisSize.min,  //Make the column as small as possible, while still showing the children
-              children: [
-                
-                //SELECT NAME
-                _showCategoryTextFormField("Name", readonly: false),
-        
-                const SizedBox(height: 16),
-
-                //SELECT ICON
-                _showCategoryTextFormField("Icon", isexpanded: isExpanded, suffixicon: FontAwesomeIcons.chevronDown, ontap: (){
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  }),
-
-                //Show Icon Picker?
-                isExpanded
-                ? Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(12),
-                      )
+      return BlocProvider.value(
+        value: context.read<CreateCategoryBloc>(),
+        child: StatefulBuilder(
+          builder: (ctx, setState) {
+            return AlertDialog(
+              title: Text("Create a Category"),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Name Field
+                    _showCategoryTextFormField(
+                      "Name",
+                      fieldController: categoryNameController,
+                      readonly: false,
                     ),
-                
-                    //Icon list
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 5, crossAxisSpacing: 5),
-                        itemCount: categoryIcons.length,
-                        itemBuilder: (context, int i){
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedIcon = categoryIcons[i];
-                              },);
-                            },
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 3,
-                                  color: selectedIcon == categoryIcons[i] ? Colors.green : Colors.grey,
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                                image: DecorationImage(image: AssetImage('assets/icons/${categoryIcons[i]}.png'))
+
+                    const SizedBox(height: 16),
+
+                    // Icon Picker Toggle
+                    _showCategoryTextFormField(
+                      "Icon",
+                      isexpanded: isExpanded,
+                      suffixicon: FontAwesomeIcons.chevronDown,
+                      ontap: () {
+                        setState(() {
+                          isExpanded = !isExpanded;
+                        });
+                      },
+                    ),
+
+                    // Icon Picker Grid
+                    isExpanded
+                        ? Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(12),
                               ),
                             ),
-                          );
-                        }
-                      
-                      ),
-                    )
-              )
-              : Container(),
-        
-                const SizedBox(height: 16),
-        
-                //SELECT COLOUR
-                _showCategoryTextFormField("Colour", readonly: true, fillcolor: categoryColor, ontap: 
-                 () {
-                    //SHOW COLOR PICKER
-                    showDialog(
-                      context: context,
-                      builder: (ctx2){
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        mainAxisSpacing: 5,
+                                        crossAxisSpacing: 5),
+                                itemCount: categoryIcons.length,
+                                itemBuilder: (context, i) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedIcon = categoryIcons[i];
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 3,
+                                          color: selectedIcon ==
+                                                  categoryIcons[i]
+                                              ? Colors.green
+                                              : Colors.grey,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(12),
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                            'assets/icons/${categoryIcons[i]}.png',
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          )
+                        : Container(),
 
-                        return AlertDialog (
-                          content: Column (
-                            mainAxisSize: MainAxisSize.min,
-                        
-                            children: [
-                              ColorPicker( pickerColor:Colors.white, pickerAreaHeightPercent: 0.8, onColorChanged: (value) {
-                                setState((){
-                                  categoryColor = value;
-                                });
-                        
-                              }),
-                        
-                              //COLOR SAVE BUTTON
-                              _showSaveButton((){ Navigator.pop(ctx2); }),
-                        
-                            ],
-                          ),
+                    const SizedBox(height: 16),
+
+                    // Color Picker Trigger
+                    _showCategoryTextFormField(
+                      "Colour",
+                      readonly: true,
+                      fillcolor: categoryColor,
+                      ontap: () {
+                        showDialog(
+                          context: context,
+                          builder: (ctx2) {
+                            return AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ColorPicker(
+                                    pickerColor: Colors.white,
+                                    pickerAreaHeightPercent: 0.8,
+                                    onColorChanged: (value) {
+                                      setState(() {
+                                        categoryColor = value;
+                                      });
+                                    },
+                                  ),
+                                  _showSaveButton(() {
+                                    Navigator.pop(ctx2);
+                                  }),
+                                ],
+                              ),
+                            );
+                          },
                         );
+                      },
+                    ),
 
-                      }
-                    );
-                  },
+                    const SizedBox(height: 32),
+
+                    // Save Button
+                    _showSaveButton(() {
+                      setState(() {
+                        category.categoryID = const Uuid().v1();
+                        category.name = categoryNameController.text;
+                        category.icon = selectedIcon;
+                        category.color = categoryColor.toString();
+                      });
+
+                      context
+                          .read<CreateCategoryBloc>()
+                          .add(CreateCategory(category));
+
+                      Navigator.pop(ctx); // Close the create dialog
+                    }),
+                  ],
                 ),
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
 
-                SizedBox(height: 32,),
-
-                //Save new category
-                _showSaveButton((){ Navigator.pop(ctx); }),
-        
-              ]
-            ),
-          );
-
-      }
-    );
-
-  }
   
 
   ///This method draws a textform field configured for the "Create New Category" modal.
-  TextFormField _showCategoryTextFormField(String hinttext,{ bool readonly = true, bool isexpanded=false, Color fillcolor=Colors.white, IconData? suffixicon=null, Function()? ontap=null}){
+  TextFormField _showCategoryTextFormField(String hinttext, { TextEditingController? fieldController, bool readonly = true, bool isexpanded=false, Color fillcolor=Colors.white, IconData? suffixicon=null, Function()? ontap=null}){
     return TextFormField(
+      controller: fieldController,
       onTap: ontap,
       textAlignVertical: TextAlignVertical.center,
       readOnly: readonly,
