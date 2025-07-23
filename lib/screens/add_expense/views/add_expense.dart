@@ -45,7 +45,7 @@ class _AddExpenseState extends State<AddExpense> {
       onTap: ()=> FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        
+
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
         ),
@@ -57,7 +57,6 @@ class _AddExpenseState extends State<AddExpense> {
   }
 
   SingleChildScrollView _showForm(BuildContext context){
-
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -66,30 +65,18 @@ class _AddExpenseState extends State<AddExpense> {
           
           children: [
             Text("Add Expense", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-
-            //EXPENSE AMOUNT FIELD
-            _showTextfield(expenseController, 0.7, "", false, 30, FontAwesomeIcons.dollarSign, (){}, null),    
-
+//-------------------------
+            _showTextfield(expenseController, 0.7, "", false, 30, FontAwesomeIcons.dollarSign, (){}, null),             //EXPENSE AMOUNT FIELD
             const SizedBox(height: 32),
-//------------------------------------------------
-            
-            //CATEGORY FIELD
-            _showTextfield( categoryController, 1, "Category", true, 12, FontAwesomeIcons.list, (){}, IconButton (
-                onPressed: () {
-                  //showDialog(context: context, builder: (ctx){
-                    _createCategory(context);   //------------ CREATE A NEW CATEGORY
-                  //}
-                  //);
-                },
+//--------------------------
+            _showTextfield(categoryController, 1, "Category", true, 12, FontAwesomeIcons.list, (){}, IconButton (      //CATEGORY FIELD
+                onPressed: () { _createCategory(context);  }, //------------ CREATE A NEW CATEGORY
                 icon: Icon(FontAwesomeIcons.circlePlus, size: 16, color: Colors.grey)
               )
             ),
-
             const SizedBox(height: 16),
-//------------------------------------------------
-
-            //DATE FIELD
-            _showTextfield(dateController, 1, "Date", true, 12, FontAwesomeIcons.clock, 
+//--------------------------     
+            _showTextfield(dateController, 1, "Date", true, 12, FontAwesomeIcons.clock,                                 //DATE FIELD
                 () async {
                   DateTime? newDate = await showDatePicker(context: context, initialDate: _savedDate, firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 365)));
 
@@ -102,13 +89,9 @@ class _AddExpenseState extends State<AddExpense> {
                 },
 
             null ),
-
             const SizedBox(height: 128),
-//------------------------------------------------
-
-            //SAVE BUTTON
-            _showSaveButton(null),
-           
+//--------------------------
+            _showSaveButton(null),    //SAVE BUTTON     
           ]
       
         ),
@@ -174,6 +157,7 @@ class _AddExpenseState extends State<AddExpense> {
                     _showCategoryTextFormField(
                       "Icon",
                       isexpanded: isExpanded,
+                      prefixicon: selectedIcon,
                       suffixicon: FontAwesomeIcons.chevronDown,
                       ontap: () {
                         setState(() {
@@ -207,6 +191,7 @@ class _AddExpenseState extends State<AddExpense> {
                                     onTap: () {
                                       setState(() {
                                         selectedIcon = categoryIcons[i];
+                                        isExpanded = false;
                                       });
                                     },
                                     child: Container(
@@ -302,7 +287,10 @@ class _AddExpenseState extends State<AddExpense> {
   
 
   ///This method draws a textform field configured for the "Create New Category" modal.
-  TextFormField _showCategoryTextFormField(String hinttext, { TextEditingController? fieldController, bool readonly = true, bool isexpanded=false, Color fillcolor=Colors.white, IconData? suffixicon=null, Function()? ontap=null}){
+  TextFormField _showCategoryTextFormField(String hinttext, { TextEditingController? fieldController, bool readonly = true, bool isexpanded=false, Color fillcolor=Colors.white, String? prefixicon, IconData? suffixicon, Function()? ontap}){
+    bool hasprefix = false;
+    if(prefixicon != null && prefixicon != ""){ hasprefix = true; }
+
     return TextFormField(
       controller: fieldController,
       onTap: ontap,
@@ -313,6 +301,11 @@ class _AddExpenseState extends State<AddExpense> {
         filled: true,
         fillColor: fillcolor,
         hintText: hinttext,
+        prefixIcon: !hasprefix ? null : ImageIcon(
+                      AssetImage('assets/icons/$prefixicon.png'), // your image file
+                      size: 12,
+                      color: Colors.black54,
+                    ), //prefixicon != null ? prefixicon: null,//Icon(prefixicon, size: 12, color: Colors.grey) : null,
         suffixIcon: suffixicon != null ? Icon(suffixicon, size: 12, color: Colors.grey) : null,
         border: OutlineInputBorder(
           borderRadius: isexpanded
