@@ -18,7 +18,8 @@ List<String> categoryIcons = [
   'receipt',
   'shopping-bag',
 ];
-//HERE IT WORKED
+
+
 Future createCategory(BuildContext context) {
   return showDialog(
     context: context,
