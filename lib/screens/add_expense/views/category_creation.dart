@@ -36,7 +36,7 @@ Future createCategory(BuildContext context) {
         child: BlocListener<CreateCategoryBloc, CreateCategoryState>(
           listener: (context, state) {
             if(state is CreateCategorySuccess){
-              Navigator.pop(ctx);
+              Navigator.pop(ctx, category); // Close the create dialog and send the new category as a return value
             } else if(state is CreateCategoryLoading) {
               isLoading = true;
             }
@@ -172,14 +172,12 @@ Future createCategory(BuildContext context) {
                               category.categoryID = const Uuid().v1();
                               category.name = categoryNameController.text;
                               category.icon = selectedIcon;
-                              category.color = categoryColor.toString();
+                              category.color = categoryColor.toARGB32();
                             },);
 
                             context.read<CreateCategoryBloc>().add(
                               CreateCategory(category),
                             );
-
-                            Navigator.pop(ctx); // Close the create dialog
                       }, showIsLoading: isLoading),
                     ],
                   ),

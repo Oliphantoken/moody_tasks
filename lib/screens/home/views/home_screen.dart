@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:expense_repository/expense_repository.dart';
 import 'package:expense_tracker/screens/add_expense/blocs/create_category_bloc/create_category_bloc.dart';
+import 'package:expense_tracker/screens/add_expense/blocs/get_categories_bloc/get_categories_bloc.dart';
 import 'package:expense_tracker/screens/stats/stats_screen.dart';
 import 'package:expense_tracker/screens/add_expense/views/add_expense.dart';
 import 'package:expense_tracker/screens/home/views/main_screen.dart';
@@ -21,8 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      [
+      body: [
         //Instead of a switch statement, will go through incrementally
         const MainScreen(),
         const StatScreen(),
@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: _drawFloatingActionButton(context),
     );
   }
-  
 
   ///Bottom Navigation Bar
   ClipRRect _drawBottomNavigationBar(BuildContext context) {
@@ -85,8 +84,17 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => BlocProvider(
-                create: (context) => CreateCategoryBloc( FirebaseExpenseRepo() ),
+              builder: (BuildContext context) => MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) => CreateCategoryBloc(FirebaseExpenseRepo()),
+                  ),
+                  BlocProvider(
+                    create: (context) => GetCategoriesBloc(FirebaseExpenseRepo())..add(
+                      GetCategories()
+                    )
+                  ),
+                ],
                 child: const AddExpense(),
               ),
             ),

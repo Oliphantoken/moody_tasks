@@ -5,7 +5,7 @@ class Category {
   String name;
   int totalExpenses;
   String icon;
-  String color;
+  int color;
 
   Category({ 
       required this.categoryID,
@@ -20,7 +20,7 @@ class Category {
     name: '',
     totalExpenses: 0,
     icon: '',
-    color: ''
+    color: 0
   );
 
 //Convert the class object to an entity that can be saved in firebase
