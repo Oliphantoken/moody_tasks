@@ -140,8 +140,7 @@ class _AddExpenseState extends State<AddExpense> {
                               onTap: () {
                                 setState(() {
                                   expense.category = state.categories[i];
-                                  categoryController.text =
-                                      expense.category.name;
+                                  categoryController.text = expense.category.name;
                                 });
                               },
                               leading: Image.asset(
