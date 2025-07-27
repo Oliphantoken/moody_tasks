@@ -6,7 +6,7 @@ part 'get_categories_event.dart';
 part 'get_categories_state.dart';
 
 class GetCategoriesBloc extends Bloc<GetCategoriesEvent, GetCategoriesState> {
-final ExpenseRepository expenseRepository;
+  final ExpenseRepository expenseRepository;
 
   GetCategoriesBloc(this.expenseRepository) : super(GetCategoriesInitial()) {
 

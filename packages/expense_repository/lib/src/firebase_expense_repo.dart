@@ -9,9 +9,9 @@ class FirebaseExpenseRepo implements ExpenseRepository {
   @override
   Future<void> createCategory(Category category) async{
     try{
-      await categoryCollection
-      .doc(category.categoryID)
-      .set(category.toEntity().toDocument());
+      await categoryCollection                 //access the category collection
+      .doc(category.categoryID)                //put the ID as key in firestore collection
+      .set(category.toEntity().toDocument());  //put the category object as its value
 
     }catch(e){
       log(e.toString());
@@ -27,6 +27,35 @@ class FirebaseExpenseRepo implements ExpenseRepository {
       .then((value) => value.docs.map( (e) =>
         Category.fromEntity(
           CategoryEntity.fromDocument( e.data() ))).toList());
+
+    }catch(e){
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+
+    @override
+  Future<void> createExpense(Expense expense) async{
+    try{
+      await expenseCollection
+      .doc(expense.expenseID)
+      .set(expense.toEntity().toDocument());
+
+    }catch(e){
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Expense>> getExpenses() async{
+    try{
+      return await expenseCollection
+      .get()
+      .then((value) => value.docs.map( (e) =>
+        Expense.fromEntity(
+          ExpenseEntity.fromDocument( e.data() ))).toList());
 
     }catch(e){
       log(e.toString());
