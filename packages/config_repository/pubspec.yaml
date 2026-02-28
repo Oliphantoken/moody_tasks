@@ -1,0 +1,20 @@
+name: config_repository
+description: A repository to store all app configurations and settings
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  shared_preferences: ^2.2.2
+  equatable: ^2.0.5  # For entity equality
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.0
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: false

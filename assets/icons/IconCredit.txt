@@ -1,0 +1,20 @@
+food: <a href="https://www.flaticon.com/free-icons/food" title="food icons">Food icons created by amonrat rungreangfangsai - Flaticon</a>
+
+fast-food: <a href="https://www.flaticon.com/free-icons/fast-food" title="fast food icons">Fast food icons created by Freepik - Flaticon</a>
+
+money: <a href="https://www.flaticon.com/free-icons/cash" title="cash icons">Cash icons created by Pixel perfect - Flaticon</a>
+
+shopping: <a href="https://www.flaticon.com/free-icons/shopping-bag" title="shopping bag icons">Shopping bag icons created by kmg design - Flaticon</a>
+
+health: <a href="https://www.flaticon.com/free-icons/healthcare" title="healthcare icons">Healthcare icons created by Freepik - Flaticon</a>
+
+
+distance (commute): <a href="https://www.flaticon.com/free-icons/road" title="road icons">Road icons created by Those Icons - Flaticon</a>
+
+plane (travel): <a href="https://www.flaticon.com/free-icons/plane" title="plane icons">Plane icons created by Freepik - Flaticon</a>
+
+receipt (bill): <a href="https://www.flaticon.com/free-icons/receipt" title="receipt icons">Receipt icons created by Anggara - Flaticon</a>
+
+game-controller: <a href="https://www.flaticon.com/free-icons/gaming" title="gaming icons">Gaming icons created by Us and Up - Flaticon</a>
+
+open-book: <a href="https://www.flaticon.com/free-icons/book" title="book icons">Book icons created by Freepik - Flaticon</a>
