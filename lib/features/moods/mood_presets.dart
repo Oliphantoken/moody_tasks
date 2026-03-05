@@ -81,4 +81,15 @@ class MoodPresets {
     Mood.drained: Icons.battery_1_bar_sharp
   };
 
+  static final getResponseImage = {
+    Mood.content: 'mr_fox00_happy.png',
+    Mood.excited: 'ms_hippo00.png',
+    Mood.sad: 'mr_snok00_sad.png',
+    Mood.upset: 'mr_fox00_transparent1.png',
+    Mood.determined: 'ms_hippo00.png',
+    Mood.panicking: 'ms_bunny01_panic.png',
+    Mood.restless: 'ms_bunny00.png',
+    Mood.drained: 'mr_seal01_sad.png'
+  };
+
 }

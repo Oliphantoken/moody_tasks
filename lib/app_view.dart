@@ -20,14 +20,7 @@ class MyAppView extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Moody Tasks',
           theme: ThemeData(
-            colorScheme: ColorScheme.light(
-              surface: Colors.grey.shade100,
-              onSurface: Colors.black,
-              primary: Color(0xFF00B2E7),
-              secondary: Color(0xFFE064F7),
-              tertiary: Color(0xFFFF8D6C),
-              outline: Colors.grey.shade400,
-            ),
+            colorScheme: activeScheme()
           ),
 
           home: MainLayout(),
@@ -35,6 +28,24 @@ class MyAppView extends StatelessWidget {
       ),
     );    
     
+  }
+
+  ColorScheme activeScheme(){
+    var time = TimeOfDay.now();
+    if(time.isAfter(TimeOfDay(hour: 7 , minute: 00))
+    && time.isBefore(TimeOfDay(hour: 18, minute: 00)) ){
+      return ColorScheme.light(
+            //   surface: Colors.grey.shade100,
+            //   onSurface: Colors.black,
+            //   primary: Color.fromARGB(255, 69, 145, 134),
+            //   secondary: Color.fromARGB(255, 233, 208, 187),
+            //   tertiary: Color(0xFFADDBC7),
+            //   shadow:  Colors.grey.shade300,
+            //   outline: Color(0xFFAFA085),//Colors.grey.shade400,
+            );
+    }else {
+      return ColorScheme.dark();
+    }
   }
 
 }

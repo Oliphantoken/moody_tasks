@@ -75,7 +75,6 @@ class MainLayoutState extends State<MainLayout> {
         },
 
         currentIndex: screenIndex,
-        backgroundColor: Colors.white,
         elevation: 3,
         showSelectedLabels: true,
         showUnselectedLabels: false,
@@ -88,13 +87,13 @@ class MainLayoutState extends State<MainLayout> {
 
           //Task List
           BottomNavigationBarItem(
-            icon: Icon(Icons.task_rounded),
+            icon: Icon(Icons.check_circle),
             label: 'Tasks',
           ),
 
           //Pomodoro
           BottomNavigationBarItem(
-            icon: Icon(Icons.punch_clock_rounded),
+            icon: Icon(Icons.timer),
             label: 'Pomodoro',
           ),
         ],
@@ -127,14 +126,13 @@ class MainLayoutState extends State<MainLayout> {
             shape: BoxShape.circle,
             gradient: LinearGradient(
               colors: [
-                Colors.amber,
-                Colors.yellow,
-                Colors.amber,
-                // Theme.of(context).colorScheme.tertiary,
-                // Theme.of(context).colorScheme.secondary,
-                // Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.secondary,
               ],
-              transform: const GradientRotation(pi / 4),
+              begin: Alignment.bottomCenter,
+              end: Alignment.topRight,
+              //transform: const GradientRotation(pi / 4),
             ),
           ),
           child: const Icon(Icons.add, color: Colors.black87,),

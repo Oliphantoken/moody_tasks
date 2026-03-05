@@ -22,10 +22,12 @@ class TaskListScreen extends StatefulWidget {
 class _TaskListScreenState extends State<TaskListScreen> {
   String selectedView = 'All'; // Default selected filter
   final filteredTasks = [];
-  String currentTask = "";  
+  String currentTask = ""; 
+  var colorScheme; 
 
   @override
   Widget build(BuildContext context) {
+    colorScheme = Theme.of(context).colorScheme;
     //BlocBuilder is our UI FSM
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
@@ -329,12 +331,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
                   //---------------------------------------------------
                   color: (){
                     if(task.id == currentTaskId){
-                      return Colors.amber;
+                      return colorScheme.primary;//Colors.amber;
                     }if(nextTaskIndexCount < 3 && selectedView == "All"){
                       nextTaskIndexCount++;
-                      return Colors.amber[50];
+                      return colorScheme.secondary; //Colors.amber[50];
                     }else{
-                      return Colors.white;
+                      return colorScheme.surface; //Colors.white;
                     }
                   }(),     
                   

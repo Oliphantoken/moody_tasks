@@ -22,7 +22,7 @@ class MoodScreen extends StatefulWidget {
 }
 
 class _MoodScreenState extends State<MoodScreen> {
-  bool _hasLoadedFromConfig = false;
+  var colorScheme;
 
   bool _isMoodSelected = false;
   Mood? _selectedMood;
@@ -44,19 +44,14 @@ class _MoodScreenState extends State<MoodScreen> {
 
   @override
    Widget build(BuildContext context) {
+    colorScheme = Theme.of(context).colorScheme;
     return AnimatedBuilder(
       animation: _configController,
       builder: (context, _){
         final configs = _configController.config;
         weeklyHoursGoal = configs.weeklyHoursGoal ?? 10;
-        print("_isMoodSelected: $_isMoodSelected");
-        print("_selectedMood before: $_selectedMood");
-        print("configs.selectedMood: ${configs.selectedMood}");
         
         _checkMoodExpiry(configs);
-        
-        print("_isMoodSelected after being set: $_isMoodSelected");
-        print("_selectedMood after: $_selectedMood");
 
         return BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
@@ -85,7 +80,7 @@ class _MoodScreenState extends State<MoodScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                    _showAppBar(context, configs), //"App Bar" part
+                    _showAppBar(context, configs),
 
                     const SizedBox(height: 20),
                     
@@ -102,7 +97,8 @@ class _MoodScreenState extends State<MoodScreen> {
                     const SizedBox(height: 5),
                     
                     if(_isMoodSelected)
-                      _showResponseBubbles(context, tasks, _selectedMood)
+                      _showResponseBubbles(context, tasks, _selectedMood),
+
                   ],
                 ),
               ),
@@ -129,19 +125,25 @@ class _MoodScreenState extends State<MoodScreen> {
           //Left side: Profile row
           Row(
             children: [
-              //Profile Icon
-              Stack(
-                alignment: Alignment.center,
-                children: _isMoodSelected ? [
-                  //Bg circle
-                  Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor?.withValues(red: iconColor.r-0.5, green: iconColor.g-0.5, blue: iconColor.b-0.5))),
-                  //Profile icon
-                  Icon(MoodPresets.getMoodIcon[_selectedMood], color: iconColor),
-                ] : [
-                  Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor)),
-                  Icon(Icons.person, color: Colors.grey[900]),
+              Column(
+                children: [
+                  //Profile Icon
+                  Stack(
+                    alignment: Alignment.center,
+                    children: _isMoodSelected ? [
+                      //Bg circle
+                      Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: iconColor?.withValues(red: iconColor.r-0.5, green: iconColor.g-0.5, blue: iconColor.b-0.5))),
+                      //Profile icon
+                      Icon(MoodPresets.getMoodIcon[_selectedMood], color: iconColor),
+                    ] : [
+                      Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.secondary)),
+                      Icon(Icons.person, color: Colors.grey[900]),
+                    ],
+                  ),
+                  Text(_isMoodSelected ? "${_selectedMood?.displayName}" : "", style: TextStyle(color: iconColor)),
                 ],
               ),
+
               SizedBox(width: 10),
               //Column for vertical text order
               Column(
@@ -156,9 +158,11 @@ class _MoodScreenState extends State<MoodScreen> {
           ),
 
           //Right side: action buttons
-          IconButton(icon: Icon(Icons.settings), onPressed: () {
-            Navigator.pushNamed(context, '/appsettings');
-          }),
+          IconButton(
+            icon: Icon(Icons.settings,
+            color: Theme.of(context).colorScheme.primary,),
+            onPressed: () { Navigator.pushNamed(context, '/appsettings'); }
+          ),
         ],
       ),
     );
@@ -224,6 +228,8 @@ class _MoodScreenState extends State<MoodScreen> {
   }
 
   Container _showProgressbox(BuildContext context, List<Task> tasks){
+    if(_isMoodSelected){ return Container(); }
+
     final completedTasks = tasks.where((task)=> task.isDone);
     double totalDuration = 0.0;
     for(Task t in completedTasks){
@@ -238,7 +244,7 @@ class _MoodScreenState extends State<MoodScreen> {
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
 
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: colorScheme.secondary, //Colors.grey[300],
         borderRadius: BorderRadius.circular(25)
       ),
       child: Column(
@@ -250,7 +256,7 @@ class _MoodScreenState extends State<MoodScreen> {
           SizedBox(height: 5),
 
           Text("${(progress*100).ceil()}% of your weekly goal is completed",
-            style: TextStyle(fontSize: 12, color: Colors.black87)),
+            style: TextStyle(fontSize: 12, color: colorScheme.outline)),
 
           SizedBox(height: 20),
 
@@ -260,7 +266,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: colorScheme.outline,
                   borderRadius: BorderRadius.circular(25)
                 )
               ),
@@ -268,7 +274,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 width: MediaQuery.of(context).size.width * progress,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: colorScheme.primary,
                   borderRadius: BorderRadius.circular(25)
                 )
               ),
@@ -291,20 +297,20 @@ class _MoodScreenState extends State<MoodScreen> {
         state?.changeScreen(SCREENS.pomodoro.index);  // safe call
       },
       style: TextButton.styleFrom(
-        textStyle: TextStyle(color: Colors.black),
-        foregroundColor: Colors.black,
+        //textStyle: TextStyle(color: Colors.black),
+        foregroundColor: colorScheme.onSurface,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("Your current task",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,),),
     
           SizedBox(height: 10),
     
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey[300],                  
+              color: colorScheme.secondary, // Colors.grey[300],                  
               borderRadius: BorderRadius.circular(25),
             ),
             child: Padding(
@@ -347,7 +353,7 @@ class _MoodScreenState extends State<MoodScreen> {
                             currenttask.title,
                             style: TextStyle(
                               fontSize: 14,
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: colorScheme.onSurface,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -368,9 +374,7 @@ class _MoodScreenState extends State<MoodScreen> {
                                 "Due ${DateFormat('dd.MM.yy').format(currenttask.dueDate)}",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
+                                  color: colorScheme.onSurface,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -392,7 +396,7 @@ class _MoodScreenState extends State<MoodScreen> {
                             currenttask.duration.toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 14,
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: colorScheme.onSurface,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -401,7 +405,7 @@ class _MoodScreenState extends State<MoodScreen> {
                             "mins",
                             style: TextStyle(
                               fontSize: 10,
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: colorScheme.onSurface,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -450,7 +454,7 @@ class _MoodScreenState extends State<MoodScreen> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildMoodIcon(_selectedMood!, MoodPresets.getMoodIcon[_selectedMood]! , MoodPresets.getMoodColor[_selectedMood]!, 60, MoodPresets.getMoodColor[_selectedMood]!, 16),
+          //_buildMoodIcon(_selectedMood!, MoodPresets.getMoodIcon[_selectedMood]! , MoodPresets.getMoodColor[_selectedMood]!, 60, MoodPresets.getMoodColor[_selectedMood]!, 16),
         ]
       );
     
@@ -462,30 +466,29 @@ class _MoodScreenState extends State<MoodScreen> {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       //Background
       decoration: BoxDecoration(
-        color: Colors.blue,
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
             blurRadius: 4,
-            color: Colors.grey.shade300,
+            color: colorScheme.shadow,
             offset: Offset(5, 5),
           ),
         ],
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.secondary,
-            Theme.of(context).colorScheme.tertiary,
+            colorScheme.primary,
+            colorScheme.primary,
           ],
-          transform: const GradientRotation(pi / 4),
-        ),
+          begin: AlignmentGeometry.bottomCenter,
+          end: AlignmentGeometry.topCenter
+          ),
       ),
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         spacing: 10,
         children: [
-          const Text(
+          Text(
             "How are you feeling today?",
             style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
           ),
@@ -517,9 +520,9 @@ class _MoodScreenState extends State<MoodScreen> {
     List<Task> filteredTasks = List.empty();
     String response = "";
     final randomise = Random();
-
     if(tasks.isEmpty) {
         response = "${MoodResponses.noTasksResponses[randomise.nextInt(MoodResponses.noTasksResponses.length)]}";
+
     } else {
       //Tasks that are not completed, not current task, and are for the next 7 days
       final duelist = tasks.where((task){
@@ -532,15 +535,22 @@ class _MoodScreenState extends State<MoodScreen> {
         response = "${MoodResponses.noTasksResponses[randomise.nextInt(MoodResponses.noTasksResponses.length)]}";
       }
       //If there are only 2 or less in the list, just return it
-      else if(duelist.length < 3){
-        filteredTasks = duelist;
-      }
+      // else if(duelist.length < 3){
+      //   filteredTasks = duelist;
+      //   print("DUELIST 22222222222222");
+      // }
       //There are more than 2 tasks in the duelist, let's sort them according to priority + mood criteria
       else { 
+        response = "${moodType?.displayName}.\n";
         switch(moodType){
           //Positive Strong emotions
           case Mood.excited:
           case Mood.determined: {
+            //The response
+            response += "${MoodResponses.posStrongStarter[randomise.nextInt(MoodResponses.posStrongStarter.length)]}\n${MoodResponses.posStrongResponses[randomise.nextInt(MoodResponses.posStrongResponses.length)]}";            
+            
+            //If there are only 2 or less in the list, just return it
+            if(duelist.length < 3){ filteredTasks = duelist; break; }
         
            //2 tasks with high ->medium ->low priority
             final priolist = duelist.where((task) => task.priority == Priority.high).toList();
@@ -552,13 +562,16 @@ class _MoodScreenState extends State<MoodScreen> {
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.moderate));
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.easy));
             
-            //The response
-            response = "${MoodResponses.posStrongStarter[randomise.nextInt(MoodResponses.posStrongStarter.length)]}\n${MoodResponses.posStrongResponses[randomise.nextInt(MoodResponses.posStrongResponses.length)]}";
             break;
           }
 
           //Positive Weak emotions
           case Mood.content: {
+            response += "${MoodResponses.posWeakStarter[randomise.nextInt(MoodResponses.posWeakStarter.length)]}\n${MoodResponses.posStrongResponses[randomise.nextInt(MoodResponses.posStrongResponses.length)]}";
+
+            //If there are only 2 or less in the list, just return it
+            if(duelist.length < 3){ filteredTasks = duelist; break; }
+
             //2 tasks with high ->medium ->low priority
             final priolist = duelist.where((task) => task.priority == Priority.high).toList();
             if(priolist.length < 2) priolist.addAll(duelist.where((task) => task.priority == Priority.medium));
@@ -569,26 +582,35 @@ class _MoodScreenState extends State<MoodScreen> {
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.moderate));
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.easy));
             
-            response = "${MoodResponses.posWeakStarter[randomise.nextInt(MoodResponses.posWeakStarter.length)]}\n${MoodResponses.posStrongResponses[randomise.nextInt(MoodResponses.posStrongResponses.length)]}";
             break;
           }
 
           //Negative Strong emotions
           case Mood.angry:
           case Mood.upset: {
+            //The response
+            response += "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negStrongResponses[randomise.nextInt(MoodResponses.negStrongResponses.length)]}";
+
+            //If there are only 2 or less in the list, just return it
+            if(duelist.length < 3){ filteredTasks = duelist; break; }
+
             //2 prioritised tasks that are moderate ->easy 
             filteredTasks = duelist.where((task) => task.complexity == Complexity.moderate).toList();
             if(filteredTasks.length < 2) filteredTasks.addAll(duelist.where((task) => task.category.categoryType == CategoryType.environment)); 
             if(filteredTasks.length < 2) filteredTasks.addAll(duelist.where((task) => task.complexity == Complexity.moderate));
             
-            //The response
-            response = "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negStrongResponses[randomise.nextInt(MoodResponses.negStrongResponses.length)]}";
             break;
           }
 
           //Negative Strong emotions
           case Mood.stressed:
           case Mood.panicking: {
+            //The response
+            response += "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negStrongResponses[randomise.nextInt(MoodResponses.negStrongResponses.length)]}";
+            
+            //If there are only 2 or less in the list, just return it
+            if(duelist.length < 3){ filteredTasks = duelist; break; }
+
             //2 tasks with high ->medium ->low priority
             final priolist = duelist.where((task) => task.priority == Priority.medium).toList();
             if(priolist.length < 2) priolist.addAll(duelist.where((task) => task.priority == Priority.high));
@@ -598,9 +620,6 @@ class _MoodScreenState extends State<MoodScreen> {
             filteredTasks = priolist.where((task) => task.complexity == Complexity.easy).toList();
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.category.categoryType ==  CategoryType.body || task.category.categoryType == CategoryType.mindAndSpirit)); 
             
-            //The response
-            response = "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negStrongResponses[randomise.nextInt(MoodResponses.negStrongResponses.length)]}";
-            
           }
 
           //Negative Weak emotions
@@ -608,19 +627,21 @@ class _MoodScreenState extends State<MoodScreen> {
           case Mood.drained:
           case Mood.restless:
           case Mood.aimless: {
+             //The response
+            response += "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negWeakResponses[randomise.nextInt(MoodResponses.negWeakResponses.length)]}";
+
+            //If there are only 2 or less in the list, just return it
+            if(duelist.length < 3){ filteredTasks = duelist; break; }
+
             //2 prioritised tasks that are moderate ->easy 
             filteredTasks = duelist.where((task) => task.complexity == Complexity.easy).toList();
-            if(filteredTasks.length < 2) filteredTasks.addAll(duelist.where((task) => task.category.categoryType ==  CategoryType.body || task.category.categoryType == CategoryType.mindAndSpirit || task.category.categoryType == CategoryType.fun)); 
-            
-            //The response
-            response = "${MoodResponses.negStarter[randomise.nextInt(MoodResponses.negStarter.length)]}\n${MoodResponses.negWeakResponses[randomise.nextInt(MoodResponses.negWeakResponses.length)]}";
-            
+            if(filteredTasks.length < 2) filteredTasks.addAll(duelist.where((task) => task.category.categoryType ==  CategoryType.body || task.category.categoryType == CategoryType.mindAndSpirit || task.category.categoryType == CategoryType.fun));       
           }
 
           default: {
             response = "${MoodResponses.noTasksResponses[randomise.nextInt(MoodResponses.noTasksResponses.length)]}";
           }
-        }
+        }    
       }
     }
 
@@ -656,8 +677,8 @@ class _MoodScreenState extends State<MoodScreen> {
       mainAxisAlignment: alignment,
       
       children: (task == null)? [
-        Image.asset('assets/icons/healthcare.png', scale: 0.6, color: Colors.pink[100],),
-        SizedBox(width:width, child: Text(label??"", maxLines: 5, textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.normal),))    
+        Image.asset('assets/icons/${MoodPresets.getResponseImage[_selectedMood]}', scale: 2,),
+        SizedBox(width:width, child: Text(label??"", maxLines: 5, textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),))    
       ] : [
         Container(
           width: width,
@@ -669,9 +690,9 @@ class _MoodScreenState extends State<MoodScreen> {
           child:
             TextButton.icon(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.grey[300],
+                foregroundColor: colorScheme.onSurface,
                 elevation: 2,
-                shadowColor: Colors.grey,
+                shadowColor: colorScheme.shadow,
               ),
               icon: Icon(Helper.getCategoryNameToIconData[task.category.name], color: Color(task.category.color),size: 30),
               onPressed: () async {
@@ -679,7 +700,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 await state?.changeCurrentTask(task.id);
                 state?.changeScreen(SCREENS.pomodoro.index);  // safe call
               },
-              label: Text(task.title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.normal),),
+              label: Text(task.title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),),
             ) 
         )
       ],
@@ -690,7 +711,7 @@ class _MoodScreenState extends State<MoodScreen> {
 
     if(c.timeSinceLastMoodSelection != null){
       final hoursPassed = DateTime.now()
-      .difference(c.timeSinceLastMoodSelection!).inHours;
+      .difference(c.timeSinceLastMoodSelection!).inSeconds;
       if(hoursPassed >= 12){
         c.selectedMood = '';
         c.timeSinceLastMoodSelection = null;

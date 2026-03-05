@@ -44,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        //backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(title: const Text('Settings')),
         body: _buildPhoneLayout(context),
       ),
@@ -69,12 +69,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('What do you want me to call you?', style: TextStyle(fontSize: 14)),
-              _showTextFormfield(_usernameController, 0.4, 'User name', false, 10, Icons.tag,Colors.white, fieldType: VALIDATIONTYPE.text),
+              _showTextFormfield(_usernameController, 0.4, 'User name', false, 10, Icons.person, fieldType: VALIDATIONTYPE.text),
           
               SizedBox(height: 40),
               
               Text('Your weekly goal for minimum work hours:', style: TextStyle(fontSize: 14)),
-              _showTextFormfield(_weeklyGoalController, 0.4, '10', false, 10, Icons.timer,Colors.white, fieldType: VALIDATIONTYPE.number, keyboardType: TextInputType.numberWithOptions(decimal: true)),
+              _showTextFormfield(_weeklyGoalController, 0.4, '10', false, 10, Icons.timer, fieldType: VALIDATIONTYPE.number, keyboardType: TextInputType.numberWithOptions(decimal: true)),
           
               SizedBox(height: 100),
           
@@ -95,8 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     String hinttext,
     bool isreadonly,
     double borderradius,
-    IconData prefixicon,
-    Color fieldColor, {
+    IconData prefixicon, {
     VALIDATIONTYPE? fieldType,
     GestureTapCallback? onTap,
     TextInputType? keyboardType,
@@ -130,7 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           }
           return null;
         },
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: 14, color: Colors.black87),
         controller: controller,
         readOnly: isreadonly,
         onTap: onTap,
@@ -138,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           contentPadding: EdgeInsets.symmetric(horizontal: 5),
           prefixIcon: Icon(prefixicon, size: 24, color: Colors.grey[800]),
           filled: true,
-          fillColor: fieldColor,
+          fillColor: Colors.white,
           hintText: hinttext,
           hintStyle: TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
@@ -169,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         } : null,
 
         style: TextButton.styleFrom(
-          backgroundColor: _isFormValid ? Colors.green : Colors.grey[300],
+          backgroundColor: _isFormValid ? Theme.of(context).colorScheme.primary : Colors.grey[300],
           foregroundColor: _isFormValid ? Colors.white : Colors.grey[500],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

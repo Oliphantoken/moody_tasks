@@ -174,16 +174,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          //Left side: action button
-          IconButton(icon: Icon(Icons.bar_chart_rounded), onPressed: () {}),
-
           //Center: title
-          Text("Pomodoro", style: TextStyle(fontWeight: FontWeight.bold )),
-
-          //Right side: action button
-          IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+          Text("Pomodoro - Focus Technique", style: TextStyle(fontSize: 16, )),
         ],
       ),
     );
@@ -206,7 +200,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[350],
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(48),
@@ -507,7 +501,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                   //Toggle isDone ->update CompletionRate And Status, copy all variables to another object before using TaskBloc
                   _saveTaskState(task, true);
                 },
-                icon: Icon(Icons.check_circle, size: 32, color: task.isDone ? Colors.black87 : Colors.grey,),
+                icon: Icon(Icons.check_circle, size: 32, color: task.isDone ? Theme.of(context).colorScheme.primary : Colors.grey,),
               ),
               //--------------
               // NEXT TASK TITLE
