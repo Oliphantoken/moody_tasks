@@ -23,6 +23,7 @@ Tools I used
 <br />
 <br />
 Further clarifications:
+
 * AI is used to HELP build the app, not to build the app for me, nor is there any AI inside the app
 * While a lot of care has been put into researching, task selection is not done with pure science in this app!
 * The app is still a work in progress, but a beta version will soon be available for Android phones!
