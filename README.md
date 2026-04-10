@@ -15,7 +15,7 @@ Built with love, enthusiasm, and ADHD symptoms in mind, the app
 Tools I used
 
 * Miro: for ideation, planning, designing, and wireframing of the project features, architecture, and UI layout
-* Perplexity.com: as a senior AI mentor to guide me through, bounce ideas with, research concepts, code reviews and analysis
+* Perplexity.ai: as a senior AI mentor to guide me through, bounce ideas with, research concepts, code reviews and analysis
 * Github: for version control
 * Visual Studio Code: for app development
 * Tutorials/documentation websites/clips: to get Flutter package recommendations, or to better understand certain feature implementations
