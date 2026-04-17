@@ -1,17 +1,29 @@
-# moody_tasks
+Moody Tasks is a Task Management app that helps you focus and keep going with your tasks, any mood you may be in.
 
-A new Flutter project.
+In this <b>Flutter project</b>, I fused together previous knowledge and skills to undergo fullstack development in a systematic and productive manner. 
+<br />
+<br />
+Built with love, enthusiasm, and ADHD symptoms in mind, the app
+* helps you pick a task based on your mood
+* features a Pomodoro timer, a technique to help you focus only on the task at hand
+* reminds you of what you're _currently_ working on, not just all the tasks that are "in progress"
+* allows you to set and track your goal for completing weekly hours 
+* allows you to sort and filter your tasks in multiple ways that may fit your mind frame
 
-## Getting Started
+<br />
+<br />
+Tools I used
 
-This project is a starting point for a Flutter application.
+* Miro: for ideation, planning, designing, and wireframing of the project features, architecture, and UI layout
+* Perplexity.ai: as a senior AI mentor to guide me through, bounce ideas with, research concepts, code reviews and analysis
+* Github: for version control
+* Visual Studio Code: for app development
+* Tutorials/documentation websites/clips: to get Flutter package recommendations, or to better understand certain feature implementations
 
-A few resources to get you started if this is your first Flutter project:
+<br />
+<br />
+Further clarifications:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* AI is used to HELP build the app, not to build the app for me, nor is there any AI inside the app
+* While a lot of care has been put into researching, task selection is not done with pure science in this app!
+* The app is still a work in progress, but a beta version will soon be available for Android phones!
