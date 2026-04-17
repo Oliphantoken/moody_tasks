@@ -50,6 +50,4 @@ void setupInjection(REPOS repo) {
     () => ConfigController(getIt<ConfigRepository>())
   );
   
-  // Add more registrations as you build features, e.g. for authentication, you might have:
-  // getIt.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 }

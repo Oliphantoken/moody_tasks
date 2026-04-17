@@ -256,7 +256,7 @@ class _MoodScreenState extends State<MoodScreen> {
           SizedBox(height: 5),
 
           Text("${(progress*100).ceil()}% of your weekly goal is completed",
-            style: TextStyle(fontSize: 12, color: colorScheme.outline)),
+            style: TextStyle(fontSize: 12, color: colorScheme.onSecondary)),
 
           SizedBox(height: 20),
 
@@ -266,7 +266,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: colorScheme.outline,
+                  color: colorScheme.secondaryContainer,
                   borderRadius: BorderRadius.circular(25)
                 )
               ),
@@ -274,7 +274,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 width: MediaQuery.of(context).size.width * progress,
                 height: 10,
                 decoration: BoxDecoration(
-                  color: colorScheme.primary,
+                  color: colorScheme.onSecondaryContainer,
                   borderRadius: BorderRadius.circular(25)
                 )
               ),
@@ -678,7 +678,7 @@ class _MoodScreenState extends State<MoodScreen> {
       
       children: (task == null)? [
         Image.asset('assets/icons/${MoodPresets.getResponseImage[_selectedMood]}', scale: 2,),
-        SizedBox(width:width, child: Text(label??"", maxLines: 5, textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),))    
+        SizedBox(width:width, child: Text(label??"", maxLines: 7, textAlign: TextAlign.start, style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14),))    
       ] : [
         Container(
           width: width,

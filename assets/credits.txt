@@ -18,3 +18,11 @@ receipt (bill): <a href="https://www.flaticon.com/free-icons/receipt" title="rec
 game-controller: <a href="https://www.flaticon.com/free-icons/gaming" title="gaming icons">Gaming icons created by Us and Up - Flaticon</a>
 
 open-book: <a href="https://www.flaticon.com/free-icons/book" title="book icons">Book icons created by Freepik - Flaticon</a>
+
+
+
+---------------
+
+SFX:
+- Tick: Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/">freesound_community</a> from <a href="https://pixabay.com">Pixabay</a>
+- Ping: Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/">Universfield</a> from <a href="https://pixabay.com/">Pixabay</a>

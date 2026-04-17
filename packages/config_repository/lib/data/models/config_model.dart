@@ -4,6 +4,7 @@ class ConfigModel {
   String? userName;
   String? selectedMood;
   double? weeklyHoursGoal;
+  String? theme;
   int? timeSinceLastMoodSelectionInt;
   bool? isMoodScreenFirstUse;
   bool? isTaskListScreenFirstUse;
@@ -14,6 +15,7 @@ class ConfigModel {
     this.userName,
     this.selectedMood,
     this.weeklyHoursGoal,
+    this.theme,
     this.timeSinceLastMoodSelectionInt,
     this.isMoodScreenFirstUse,
     this.isTaskListScreenFirstUse,
@@ -25,6 +27,7 @@ class ConfigModel {
       userName: json['userName'] as String?,
       selectedMood: json['selectedMood'] as String?,
       weeklyHoursGoal: (json['weeklyHoursGoal'] as num?)?.toDouble(),
+      theme: json['theme'] as String?,
       timeSinceLastMoodSelectionInt: json['timeSinceLastMoodSelectionInt'] as int?,
       isMoodScreenFirstUse: json['isMoodScreenFirstUse'] as bool?,
       isPomodoroScreenFirstUse: json['isPomodoroScreenFirstUse'] as bool?,
@@ -37,6 +40,7 @@ class ConfigModel {
       'userName': userName,
       'selectedMood': selectedMood,
       'weeklyHoursGoal': weeklyHoursGoal,
+      'theme': theme,
       'timeSinceLastMoodSelectionInt': timeSinceLastMoodSelectionInt,
       'isMoodScreenFirstUse': isMoodScreenFirstUse,
       'isPomodoroScreenFirstUse': isPomodoroScreenFirstUse,
@@ -49,6 +53,7 @@ class ConfigModel {
       userName: userName,
       selectedMood: selectedMood,
       weeklyHoursGoal: weeklyHoursGoal,
+      theme: theme,
       timeSinceLastMoodSelection: timeSinceLastMoodSelectionInt != null
       ? DateTime.fromMillisecondsSinceEpoch(timeSinceLastMoodSelectionInt!)
       : null,
@@ -64,6 +69,7 @@ class ConfigModel {
       userName: entity.userName,
       selectedMood: entity.selectedMood,
       weeklyHoursGoal: entity.weeklyHoursGoal,
+      theme: entity.theme,
       timeSinceLastMoodSelectionInt: entity.timeSinceLastMoodSelection?.millisecondsSinceEpoch,
       isMoodScreenFirstUse: entity.isMoodScreenFirstUse,
       isPomodoroScreenFirstUse: entity.isPomodoroScreenFirstUse,

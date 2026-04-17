@@ -22,6 +22,7 @@ class ConfigController extends ChangeNotifier {
     String? userName,
     String? selectedMood,
     double? weeklyHoursGoal,
+    String? theme,
     DateTime? timeSinceLastMoodSelection,
     bool? isMoodScreenFirstUse,
     bool? isTaskListScreenFirstUse,
@@ -31,6 +32,7 @@ class ConfigController extends ChangeNotifier {
       userName: userName,
       selectedMood: selectedMood,
       weeklyHoursGoal: weeklyHoursGoal,
+      theme : theme,
       timeSinceLastMoodSelection: timeSinceLastMoodSelection,
       isMoodScreenFirstUse: isMoodScreenFirstUse,
       isTaskListScreenFirstUse: isTaskListScreenFirstUse,
@@ -40,6 +42,5 @@ class ConfigController extends ChangeNotifier {
     await _repo.saveAllAppConfigs(newConfig);
     _config = newConfig;
     notifyListeners();
-
   }
 }

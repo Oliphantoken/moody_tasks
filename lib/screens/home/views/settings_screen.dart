@@ -24,12 +24,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   late final TextEditingController _usernameController;
   late final TextEditingController _weeklyGoalController;
+  late final TextEditingController _themeController;
 
   @override
   void initState() {
     _configController = getIt<ConfigController>();
     _usernameController = TextEditingController(text: _configController.config.userName ?? '');
     _weeklyGoalController = TextEditingController(text:  _configController.config.weeklyHoursGoal?.toString() ?? '10.0');
+    _themeController = TextEditingController(text: _configController.config.theme?.toString() ?? '');
     super.initState();
   }
 
@@ -75,6 +77,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               
               Text('Your weekly goal for minimum work hours:', style: TextStyle(fontSize: 14)),
               _showTextFormfield(_weeklyGoalController, 0.4, '10', false, 10, Icons.timer, fieldType: VALIDATIONTYPE.number, keyboardType: TextInputType.numberWithOptions(decimal: true)),
+          
+              SizedBox(height: 100),
+
+              Text('Which colour scheme do you want to use?', style: TextStyle(fontSize: 14)),
+              DropdownMenuFormField(
+                leadingIcon: Icon(Icons.color_lens),
+                width: 200,
+                controller: _themeController,
+                dropdownMenuEntries: [
+                  DropdownMenuEntry(value: 'Light', label: 'Light theme'),
+                  DropdownMenuEntry(value: 'Dark', label: 'Dark theme'),
+                ]
+              ),
           
               SizedBox(height: 100),
           
@@ -160,8 +175,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             await _configController.update(
               userName: _usernameController.text.trim(),
               weeklyHoursGoal: goal,
+              theme: _themeController.text.trim(),
             );
-            setState(() { saveLabel = "Saved!"; });
+            setState(() {
+              saveLabel = "Saved!";
+            });
           } catch(e) {
             print('SettingsScreen: error saving settings: $e');
           }
