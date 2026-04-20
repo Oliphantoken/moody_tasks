@@ -26,6 +26,7 @@ class TaskCreation extends StatefulWidget {
 }
 
 class _TaskCreationState extends State<TaskCreation> {
+  late ColorScheme colorScheme;
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
   TextEditingController durationController = TextEditingController();
@@ -57,6 +58,8 @@ class _TaskCreationState extends State<TaskCreation> {
 
   @override
   Widget build(BuildContext context) {
+    colorScheme = Theme.of(context).colorScheme;
+
     return BlocListener<TaskBloc, TaskState>(
 
       listener: (context, state) {
@@ -164,6 +167,7 @@ class _TaskCreationState extends State<TaskCreation> {
                 height: 200,
                 decoration: BoxDecoration(
                   image: DecorationImage(image: AssetImage('assets/icons/task-background.jpg'), fit: BoxFit.none),
+                  borderRadius: BorderRadius.circular(12),
                 )
               ),
               //-------------------------
@@ -184,7 +188,7 @@ class _TaskCreationState extends State<TaskCreation> {
                         }
                         return null;
                       },
-
+                      style: TextStyle(color: colorScheme.onPrimary, fontSize: 18),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -221,7 +225,7 @@ class _TaskCreationState extends State<TaskCreation> {
                           false,
                           10,
                           FontAwesomeIcons.arrowDown,
-                          Colors.white,
+                          colorScheme.primaryContainer,
                           suffixtext: "mins",
                         )
                       ] ,
@@ -240,12 +244,12 @@ class _TaskCreationState extends State<TaskCreation> {
                           true,
                           12,
                           FontAwesomeIcons.clock, //DATE FIELD
-                          Colors.white,
+                          colorScheme.primaryContainer,
                           onTap: () async {
                             DateTime? newDate = await showDatePicker(
                               context: context,
                               initialDate: task.dueDate,
-                              firstDate: DateTime.now(),
+                              firstDate: DateTime.now().isAfter(task.dueDate) ? task.dueDate : DateTime.now(),
                               lastDate: DateTime.now().add(Duration(days: 365)),
                             );
               
@@ -266,7 +270,7 @@ class _TaskCreationState extends State<TaskCreation> {
               ]),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 24),
           //-------------------------
           //CATEGORY ROW
           //-------------------------
@@ -295,7 +299,7 @@ class _TaskCreationState extends State<TaskCreation> {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 24),
           //-------------------------
           //COMPLEXITY, PRIORITY, STATUS ROW
           //-------------------------
@@ -314,6 +318,8 @@ class _TaskCreationState extends State<TaskCreation> {
                   child: DropdownButtonFormField<Complexity>(
                     initialValue: task.complexity,
                     items: _buildEnumItems(Complexity.values, (c)=>c.displayName),
+                    style: TextStyle(color: colorScheme.onPrimary),
+                    dropdownColor: colorScheme.primary,
                     onChanged: (Complexity? c) {
                       if (c != null) {
                         setState(() {
@@ -347,6 +353,8 @@ class _TaskCreationState extends State<TaskCreation> {
                   child: DropdownButtonFormField<Priority>(
                     initialValue: task.priority,
                     items: _buildEnumItems(Priority.values, (p)=>p.displayName),
+                    style:  TextStyle(color: colorScheme.onPrimary),
+                    dropdownColor: colorScheme.primary,
                     onChanged: (Priority? p) {
                       if (p != null) {
                         setState(() { _selectedPriority = p; });
@@ -367,7 +375,7 @@ class _TaskCreationState extends State<TaskCreation> {
             ),
             
           ],),
-          SizedBox(height: 16),
+          SizedBox(height: 24),
           //-------------------------
           //DESCRIPTION FIELD
           //-------------------------
@@ -388,7 +396,7 @@ class _TaskCreationState extends State<TaskCreation> {
               )
             ]
           ),                  
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           //--------------------------
           //SAVE BUTTON
           //--------------------------
@@ -474,7 +482,7 @@ class _TaskCreationState extends State<TaskCreation> {
         onTap: onTap,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 10),
-          suffixIcon: suffixtext != null ? Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 0, vertical: 0), child: TextButton(onPressed: (){}, child: Text(suffixtext, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal)))) : suffixiconbutton,//Icon(prefixicon, size: 14, color: Colors.grey),//suffixiconbutton,
+          suffixIcon: suffixtext != null ? Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 0, vertical: 0), child: TextButton(onPressed: (){}, child: Text(suffixtext, style: TextStyle(color: colorScheme.onPrimaryContainer, fontWeight: FontWeight.normal)))) : suffixiconbutton,
           filled: true,
           fillColor: fieldColor,
           hintText: hinttext,
@@ -503,8 +511,7 @@ class _TaskCreationState extends State<TaskCreation> {
           : TextButton(
               onPressed: onpressed,
               style: TextButton.styleFrom(
-                backgroundColor: onpressed != null ? Colors.grey[700] : Colors.grey[300],
-                foregroundColor: onpressed != null ? Colors.white : Colors.grey[500],
+                backgroundColor: onpressed != null ? colorScheme.primary : Colors.grey,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -524,8 +531,8 @@ class _TaskCreationState extends State<TaskCreation> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: isSelected ? Colors.black87 : Colors.white,
-        border: Border.all(color: isSelected ? Colors.black87 : Colors.grey),
+        color: isSelected ? colorScheme.primaryContainer: colorScheme.onPrimaryContainer,
+        border: Border.all(color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -533,7 +540,7 @@ class _TaskCreationState extends State<TaskCreation> {
           IconButton(
             icon: categoryIcon,
             iconSize: 26,
-            color: isSelected ? Colors.white : Colors.black,
+            color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
             padding: EdgeInsets.only(bottom: 0),
             onPressed: onpressed?? () {
               setState(() {
@@ -541,7 +548,7 @@ class _TaskCreationState extends State<TaskCreation> {
               });
             },
           ),
-          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : Colors.black87)),
+          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ?  colorScheme.onPrimaryContainer : colorScheme.onPrimary)),
         ]
       ),
     );
@@ -565,255 +572,5 @@ class _TaskCreationState extends State<TaskCreation> {
     .map((v){ return DropdownMenuItem(value: v, child: Text( displayName(v) )); })
     .toList();
   }
-   
 
-
-
-   Widget _buildTabletLayout(BuildContext context){
-    return SingleChildScrollView(
-    child: Padding(
-        padding: EdgeInsets.fromLTRB(25.0, 16, 25.0, 32),
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-  
-        children: [
-          //-------------------------
-          //INTRO STACK - BG, title, maxTime, due date
-          //-------------------------
-          Stack(
-            children: [
-              //BACKGROUND IMAGE
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage('assets/icons/task-background.jpg'), fit: BoxFit.contain),
-                )
-              ),
-              //-------------------------
-              //INTRO FIELDS
-              //-------------------------
-              Column(
-                children: [
-                  //-------------------------
-                  //TITLE FIELD
-                  //-------------------------
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextFormField(controller: titleController, maxLines: 2, maxLength: 30, maxLengthEnforcement: MaxLengthEnforcement.enforced, textAlign: TextAlign.center, 
-                      validator: (value){
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Task needs a title';
-                        }
-                        return null;
-                      },
-
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none
-                        ),
-                        counterText: "",
-                        hintText: "Task name goes here!",
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                        contentPadding: EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 32),
-                        filled: false,
-                        fillColor: Colors.grey[200],
-                        constraints: BoxConstraints(maxWidth: 150, maxHeight: 150)),
-                      )
-                  ],),
-                SizedBox(height: 16,),
-                //-------------------------
-                //DURATION AND DUE DATE ROW
-                //-------------------------
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    //-------------------------
-                    //DURATION FIELD
-                    //-------------------------
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Estimated max time", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),),
-                        _showTextFormfield(
-                          durationController,
-                          fieldType: VALIDATIONTYPE.number,
-                          0.3,
-                          "50",
-                          false,
-                          10,
-                          FontAwesomeIcons.arrowDown,
-                          Colors.white,
-                          suffixtext: "mins",
-                        )
-                      ] ,
-                    ),
-                    //--------------------------
-                    //DUE DATE FIELD
-                    //--------------------------
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Due date", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),),
-                        _showTextFormfield(
-                          dateController,
-                          0.3,
-                          "Date",
-                          true,
-                          12,
-                          FontAwesomeIcons.clock, //DATE FIELD
-                          Colors.white,
-                          onTap: () async {
-                            DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: task.dueDate,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime.now().add(Duration(days: 365)),
-                            );
-              
-                            if (newDate != null) {
-                              setState(() {
-                                dateController.text = DateFormat(
-                                  'dd/MM/yyyy',
-                                ).format(newDate);
-                                task.dueDate = newDate;
-                              });
-                            }
-                          },
-                        ),
-                      ] ,
-                    ),
-                  ],
-                ),
-              ]),
-            ],
-          ),
-          const SizedBox(height: 8),
-            //-------------------------
-          //CATEGORY ROW
-          //-------------------------
-          Text("Category", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            spacing: 16,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _showCategoryItem("Fun", Icon(FontAwesomeIcons.paintbrush), CategoryPresets.fun),
-                  _showCategoryItem("Body", Icon(FontAwesomeIcons.personRunning), CategoryPresets.body),
-                  _showCategoryItem("Mind", Icon(FontAwesomeIcons.brain), CategoryPresets.mindAndSpirit),
-                  _showCategoryItem("Finance", Icon(FontAwesomeIcons.moneyBillWave), CategoryPresets.finance),
-                  _showCategoryItem("Work", Icon(FontAwesomeIcons.wrench), CategoryPresets.professional),
-                  _showCategoryItem("Social", Icon(FontAwesomeIcons.peopleGroup),CategoryPresets.social),
-                  _showCategoryItem("Home", Icon(FontAwesomeIcons.houseFlag), CategoryPresets.environment),
-                ]
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          
-          //-------------------------
-          //COMPLEXITY, PRIORITY, STATUS ROW
-          //-------------------------
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            //-------------------------
-            //COMPLEXITY FIELD
-            //-------------------------
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Complexity", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-                DropdownButton(
-                  value: task.complexity,
-                  items: _buildComplexityItems(),
-                  onChanged:(value) => _selectedComplexity = value,
-                  isExpanded: true,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  underline: Container(),
-                ),
-              ],
-            ),
-            //-------------------------
-            //PRIORITY FIELD
-            //-------------------------
-            Container(
-              width: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Text("Priority", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-                  TextButton(style: TextButton.styleFrom(backgroundColor: Colors.white, fixedSize: Size(90, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), child: Text("Low", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87)), onPressed: (){}, ),
-                ],
-              ),
-            ),
-            
-          ],),
-          SizedBox(height: 16),
-          //-------------------------
-          //DESCRIPTION FIELD
-          //-------------------------
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Description", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),),
-              TextField(maxLines: 3, maxLength: 90, textAlign: TextAlign.start, controller: descController, decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                hintText: "In more details...",
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 12),
-                filled: true,
-                fillColor: Colors.white,
-              )
-              )
-            ]
-          ),                  
-          const SizedBox(height: 8),
-          //--------------------------
-          //SAVE BUTTON
-          //--------------------------
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _showSaveButton("Create new task", 0.4, _isFormValid ? () {
-                final newTask = Task(
-                  id: const Uuid().v1(),
-                  title: titleController.text,
-                  description: descController.text,
-                  duration: double.parse(( durationController.text != ""? durationController.text : '0')),
-                  dueDate: dateController.text != "" ? task.dueDate : DateTime.now().add(Duration(days: 5)),
-                  isDone: false,
-                  category: _selectedCategory ?? task.category,
-                  priority: _selectedPriority ?? task.priority,
-                  complexity: _selectedComplexity ?? task.complexity,
-                  project: "",
-                  tags: [],
-                  status: TaskStatus.backlog,
-                  completionRate: 0.0,
-                  orderIndex: 0,                  
-                );
-              
-                // Dispatch AddTask event to TaskBloc
-                context.read<TaskBloc>().add(AddTask(newTask, ""));
-                task = newTask;
-              } : null,
-              showIsLoading: isLoading),
-            ],
-          ), //SAVE BUTTON
-        ],
-      ),
-      
-    ),
-  );
-}
-
-  
 }

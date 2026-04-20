@@ -29,6 +29,7 @@ class TaskDetails extends StatefulWidget {
 }
 
 class _TaskDetailsState extends State<TaskDetails> {
+  late ColorScheme colorScheme;
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
   TextEditingController durationController = TextEditingController();
@@ -58,6 +59,8 @@ class _TaskDetailsState extends State<TaskDetails> {
 
   @override
   Widget build(BuildContext context) {
+    colorScheme = Theme.of(context).colorScheme;
+
     return BlocListener<TaskBloc, TaskState>(
 
       listener: (context, state) {
@@ -78,7 +81,7 @@ class _TaskDetailsState extends State<TaskDetails> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: colorScheme.surface,
           appBar: AppBar(),
           body: _showForm(context),
         ),
@@ -120,6 +123,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                           height: 200,
                           decoration: BoxDecoration(
                             image: DecorationImage(image: AssetImage('assets/icons/task-background.jpg'), fit: BoxFit.fill),
+                            borderRadius: BorderRadius.circular(12),
                           )
                         ),
                         //-------------------------
@@ -140,18 +144,18 @@ class _TaskDetailsState extends State<TaskDetails> {
                                     }
                                     return null;
                                   },
+                                style: TextStyle(color: colorScheme.onPrimary, fontSize: 18),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                     borderSide: BorderSide.none
                                   ),
                                   counterText: "",
-                                  hintText: "Task name goes here!",
+                                  hintText: "Task title goes here",
                                   hintStyle: TextStyle(color: Colors.grey[800]),
                                   contentPadding: EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 32),
                                   filled: false,
-                                  fillColor: Colors.grey[200],
-                                  constraints: BoxConstraints(maxWidth: 150, maxHeight: 150)),
+                                  constraints: BoxConstraints(maxWidth: 200, maxHeight: 150)),
                                 )
                             ],),
                           SizedBox(height: 16,),
@@ -176,7 +180,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                                     false,
                                     10,
                                     FontAwesomeIcons.arrowDown,
-                                    Colors.white,
+                                    colorScheme.primaryContainer,
                                     suffixtext: "mins",
                                   )
                                 ] ,
@@ -195,12 +199,12 @@ class _TaskDetailsState extends State<TaskDetails> {
                                     true,
                                     12,
                                     FontAwesomeIcons.clock, //DATE FIELD
-                                    Colors.white,
+                                    colorScheme.primaryContainer,
                                     onTap: () async {
                                       DateTime? newDate = await showDatePicker(
                                         context: context,
                                         initialDate: widget.selectedTask.dueDate,
-                                        firstDate: DateTime.now(),
+                                        firstDate: DateTime.now().isAfter(widget.selectedTask.dueDate) ? widget.selectedTask.dueDate : DateTime.now(),
                                         lastDate: DateTime.now().add(Duration(days: 365)),
                                       );
                         
@@ -221,7 +225,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                         ]),
                       ],
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 24),
                      //-------------------------
                     //CATEGORY ROW
                     //-------------------------
@@ -255,7 +259,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                     //COMPLEXITY, PRIORITY ROW
                     //-------------------------
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                       //-------------------------
                       //COMPLEXITY FIELD
@@ -269,12 +273,11 @@ class _TaskDetailsState extends State<TaskDetails> {
                             child: DropdownButtonFormField<Complexity>(
                               initialValue: widget.selectedTask.complexity,
                               items: _buildComplexityItems(),
+                              style:  TextStyle(color: colorScheme.onPrimary),
+                              dropdownColor: colorScheme.primary,
                               onChanged: (Complexity? c) {
                                 if (c != null) {
-                                  setState(() {
-                                    _selectedComplexity = c;
-                                    
-                                  });
+                                  setState(() { _selectedComplexity = c; });
                                 }
                               },
                               decoration: InputDecoration(
@@ -303,11 +306,13 @@ class _TaskDetailsState extends State<TaskDetails> {
                             child: DropdownButtonFormField<Priority>(
                               initialValue: widget.selectedTask.priority,
                               items: _buildPriorityItems(),
+                              dropdownColor: colorScheme.primary,
                               onChanged: (Priority? p) {
                                 if (p != null) {
                                   setState(() { _selectedPriority = p; });
                                 }
                               },
+                              style: TextStyle(color: colorScheme.onPrimary),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -323,7 +328,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                       ),
                       
                     ],),
-                    SizedBox(height: 16),
+                    SizedBox(height: 24),
                     //-------------------------
                     //DESCRIPTION FIELD
                     //-------------------------
@@ -344,13 +349,13 @@ class _TaskDetailsState extends State<TaskDetails> {
                         )
                       ]
                     ),                  
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 24),
             
                     //--------------------------
                     //CANCEL & SAVE BUTTON
                     //--------------------------
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         _showSaveButton("Cancel", 0.2, (){
                           Navigator.pop(taskcontext);
@@ -423,7 +428,7 @@ class _TaskDetailsState extends State<TaskDetails> {
           switch(fieldType){
             case VALIDATIONTYPE.text:
               if (value == null || value.trim().isEmpty) {
-                return 'This needs a text!';
+                return 'This needs a text';
               } return null;
             case VALIDATIONTYPE.number:
               // Handle null/empty (optional field) - return null (valid)
@@ -448,7 +453,7 @@ class _TaskDetailsState extends State<TaskDetails> {
         onTap: onTap,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 10),
-          suffixIcon: suffixtext != null ? Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 0, vertical: 0), child: TextButton(onPressed: (){}, child: Text(suffixtext, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal)))) : suffixiconbutton,//Icon(prefixicon, size: 14, color: Colors.grey),//suffixiconbutton,
+          suffixIcon: suffixtext != null ? Padding(padding: EdgeInsetsGeometry.symmetric(horizontal: 0, vertical: 0), child: TextButton(onPressed: (){}, child: Text(suffixtext, style: TextStyle(color: colorScheme.onPrimaryContainer, fontWeight: FontWeight.normal)))) : suffixiconbutton,
           filled: true,
           fillColor: fieldColor,
           hintText: hinttext,
@@ -477,15 +482,15 @@ class _TaskDetailsState extends State<TaskDetails> {
           : TextButton(
               onPressed: onpressed,
               style: TextButton.styleFrom(
-                backgroundColor: onpressed != null ? Colors.grey[700] : Colors.grey[300],
-                foregroundColor: onpressed != null ? Colors.white : Colors.grey[500],
+                backgroundColor: onpressed != null ? colorScheme.primary : Colors.grey[300],
+                foregroundColor: onpressed != null ? colorScheme.onPrimary : Colors.grey[500],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
               child: Text(
                 buttontext,
-                style: TextStyle(fontSize: 14, color: Colors.white),
+                style: TextStyle(fontSize: 14, color: colorScheme.onPrimary),
               ),
             ),
     );
@@ -498,8 +503,8 @@ class _TaskDetailsState extends State<TaskDetails> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: isSelected ? Colors.black87 : Colors.white,
-        border: Border.all(color: isSelected ? Colors.black87 : Colors.grey),
+        color: isSelected ? colorScheme.primaryContainer: colorScheme.onPrimaryContainer,
+        border: Border.all(color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -507,7 +512,7 @@ class _TaskDetailsState extends State<TaskDetails> {
           IconButton(
             icon: categoryIcon,
             iconSize: 26,
-            color: isSelected ? Colors.white : Colors.black,
+            color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
             padding: EdgeInsets.only(bottom: 0),
             onPressed: onpressed?? () {
               setState(() {
@@ -515,7 +520,7 @@ class _TaskDetailsState extends State<TaskDetails> {
               });
             },
           ),
-          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : Colors.black87)),
+          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary)),
         ]
       ),
     );
