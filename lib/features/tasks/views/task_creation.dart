@@ -267,7 +267,7 @@ class _TaskCreationState extends State<TaskCreation> {
             ],
           ),
           const SizedBox(height: 8),
-            //-------------------------
+          //-------------------------
           //CATEGORY ROW
           //-------------------------
           Text("Category", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
@@ -297,81 +297,6 @@ class _TaskCreationState extends State<TaskCreation> {
           ),
           SizedBox(height: 16),
           //-------------------------
-          //PROJECT FIELD
-          //--------------------------
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Project", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-              _showTextFormfield(
-                categoryController,
-                1,
-                "Project name",
-                true,
-                10,
-                suffixiconbutton: IconButton(
-                  //PROJECT FIELD
-                  onPressed: () async {
-                    //var newProject = await createCategory(context);
-                    setState(() {
-                      //state.categories.insert(0, newCategory);
-                    });
-                  }, //------------ CREATE A NEW CATEGORY
-                  icon: Icon(
-                    FontAwesomeIcons.circlePlus,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                FontAwesomeIcons.list,
-                Colors.white                   
-              )
-            ]
-          ),
-  
-          //Show current projects field
-          // Container(
-          //   height: 150,
-          //   width: MediaQuery.of(context).size.width,
-          //   decoration: const BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.vertical(
-          //       bottom: Radius.circular(5),
-          //     ),
-          //   ),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-  
-          //     //Get the categories in a list
-          //     child: ListView.builder(
-          //       itemCount: 4, //state.categories.length,
-          //       itemBuilder: (context, int i) {
-          //         return Card(
-          //           child: ListTile(
-          //             onTap: () {
-          //               setState(() {
-          //                 task.category = state.categories[i];
-          //                 categoryController.text = expense.category.name;
-          //               });
-          //             },
-          //             leading: Image.asset(
-          //               'assets/icons/${state.categories[i].icon}.png',
-          //               scale: 2,
-          //             ),
-          //             title: Text(state.categories[i].name),
-          //             tileColor: Color(state.categories[i].color),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadiusGeometry.circular(8),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
-  
-          const SizedBox(height: 24),
-          //-------------------------
           //COMPLEXITY, PRIORITY, STATUS ROW
           //-------------------------
           Row(
@@ -380,53 +305,65 @@ class _TaskCreationState extends State<TaskCreation> {
             //-------------------------
             //COMPLEXITY FIELD
             //-------------------------
-            SizedBox(
-              width: 150,
-              child: DropdownButtonFormField<Complexity>(
-                initialValue: task.complexity,
-                items: _buildEnumItems(Complexity.values, (c)=>c.displayName),
-                onChanged: (Complexity? c) {
-                  if (c != null) {
-                    setState(() {
-                      _selectedComplexity = c;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Complexity", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: 150,
+                  child: DropdownButtonFormField<Complexity>(
+                    initialValue: task.complexity,
+                    items: _buildEnumItems(Complexity.values, (c)=>c.displayName),
+                    onChanged: (Complexity? c) {
+                      if (c != null) {
+                        setState(() {
+                          _selectedComplexity = c;
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelStyle: TextStyle(fontWeight: FontWeight.normal)
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  labelStyle: TextStyle(fontWeight: FontWeight.normal)
                 ),
-              ),
+              ],
             ),
 
             //-------------------------
             //PRIORITY FIELD
             //-------------------------
-            SizedBox(
-              width: 150,
-              child: DropdownButtonFormField<Priority>(
-                initialValue: task.priority,
-                items: _buildEnumItems(Priority.values, (p)=>p.displayName),
-                onChanged: (Priority? p) {
-                  if (p != null) {
-                    setState(() { _selectedPriority = p; });
-                  }
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Priority", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: 150,
+                  child: DropdownButtonFormField<Priority>(
+                    initialValue: task.priority,
+                    items: _buildEnumItems(Priority.values, (p)=>p.displayName),
+                    onChanged: (Priority? p) {
+                      if (p != null) {
+                        setState(() { _selectedPriority = p; });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelStyle: TextStyle(fontWeight: FontWeight.normal)
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  labelStyle: TextStyle(fontWeight: FontWeight.normal)
                 ),
-              ),
+              ],
             ),
             
           ],),
@@ -777,81 +714,7 @@ class _TaskCreationState extends State<TaskCreation> {
             ],
           ),
           SizedBox(height: 16),
-          //-------------------------
-          //PROJECT FIELD
-          //--------------------------
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Project", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-              _showTextFormfield(
-                categoryController,
-                1,
-                "Project name",
-                true,
-                10,
-                suffixiconbutton: IconButton(
-                  //PROJECT FIELD
-                  onPressed: () async {
-                    //var newProject = await createCategory(context);
-                    setState(() {
-                      //state.categories.insert(0, newCategory);
-                    });
-                  }, //------------ CREATE A NEW CATEGORY
-                  icon: Icon(
-                    FontAwesomeIcons.circlePlus,
-                    size: 16,
-                    color: Colors.grey,
-                  ),
-                ),
-                FontAwesomeIcons.list,
-                Colors.white                   
-              )
-            ]
-          ),
-  
-          //Show current projects field
-          // Container(
-          //   height: 150,
-          //   width: MediaQuery.of(context).size.width,
-          //   decoration: const BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.vertical(
-          //       bottom: Radius.circular(5),
-          //     ),
-          //   ),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-  
-          //     //Get the categories in a list
-          //     child: ListView.builder(
-          //       itemCount: 4, //state.categories.length,
-          //       itemBuilder: (context, int i) {
-          //         return Card(
-          //           child: ListTile(
-          //             onTap: () {
-          //               setState(() {
-          //                 task.category = state.categories[i];
-          //                 categoryController.text = expense.category.name;
-          //               });
-          //             },
-          //             leading: Image.asset(
-          //               'assets/icons/${state.categories[i].icon}.png',
-          //               scale: 2,
-          //             ),
-          //             title: Text(state.categories[i].name),
-          //             tileColor: Color(state.categories[i].color),
-          //             shape: RoundedRectangleBorder(
-          //               borderRadius: BorderRadiusGeometry.circular(8),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
-  
-          const SizedBox(height: 24),
+          
           //-------------------------
           //COMPLEXITY, PRIORITY, STATUS ROW
           //-------------------------
@@ -861,24 +724,20 @@ class _TaskCreationState extends State<TaskCreation> {
             //-------------------------
             //COMPLEXITY FIELD
             //-------------------------
-            DropdownButton(
-              value: task.complexity,
-              items: _buildComplexityItems(),
-              onChanged:(value) => _selectedComplexity = value,
-              isExpanded: true,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              underline: Container(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("Complexity", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
+                DropdownButton(
+                  value: task.complexity,
+                  items: _buildComplexityItems(),
+                  onChanged:(value) => _selectedComplexity = value,
+                  isExpanded: true,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  underline: Container(),
+                ),
+              ],
             ),
-            // Container(
-            //   width: 100,
-            //   decoration: BoxDecoration( borderRadius: BorderRadius.circular(10)),
-            //   child: Column(
-            //     children: [
-            //       TextButton(style: TextButton.styleFrom(backgroundColor: Colors.white, fixedSize: Size(90, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), child: Text("Complex", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87)), onPressed: (){}, ),
-            //       Text("Complexity", style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal, color: Colors.grey[600]),),
-            //     ],
-            //   ),
-            // ),
             //-------------------------
             //PRIORITY FIELD
             //-------------------------
@@ -889,8 +748,8 @@ class _TaskCreationState extends State<TaskCreation> {
               ),
               child: Column(
                 children: [
+                  Text("Priority", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
                   TextButton(style: TextButton.styleFrom(backgroundColor: Colors.white, fixedSize: Size(90, 50), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))), child: Text("Low", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black87)), onPressed: (){}, ),
-                  Text("Priority", style: TextStyle(fontSize: 10, fontWeight: FontWeight.normal, color: Colors.grey[600]),),
                 ],
               ),
             ),

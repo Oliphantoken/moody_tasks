@@ -250,38 +250,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
-                    //-------------------------
-                    //PROJECT FIELD
-                    //--------------------------
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Project", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
-                        _showTextFormfield(
-                          categoryController,
-                          1,
-                          "Project name",
-                          true,
-                          10,
-                          suffixiconbutton: IconButton(
-                            //PROJECT FIELD
-                            onPressed: () async {
-                              setState(() {});
-                            }, 
-                            //------------ CREATE A NEW CATEGORY
-                            icon: Icon(
-                              FontAwesomeIcons.circlePlus,
-                              size: 16,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          FontAwesomeIcons.list,
-                          Colors.white                   
-                        )
-                      ]
-                    ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
                     //-------------------------
                     //COMPLEXITY, PRIORITY ROW
                     //-------------------------
@@ -291,54 +260,66 @@ class _TaskDetailsState extends State<TaskDetails> {
                       //-------------------------
                       //COMPLEXITY FIELD
                       //-------------------------
-                      SizedBox(
-                        width: 150,
-                        child: DropdownButtonFormField<Complexity>(
-                          initialValue: widget.selectedTask.complexity,
-                          items: _buildComplexityItems(),
-                          onChanged: (Complexity? c) {
-                            if (c != null) {
-                              setState(() {
-                                _selectedComplexity = c;
-                                
-                              });
-                            }
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Complexity", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
+                          SizedBox(
+                            width: 150,
+                            child: DropdownButtonFormField<Complexity>(
+                              initialValue: widget.selectedTask.complexity,
+                              items: _buildComplexityItems(),
+                              onChanged: (Complexity? c) {
+                                if (c != null) {
+                                  setState(() {
+                                    _selectedComplexity = c;
+                                    
+                                  });
+                                }
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelStyle: TextStyle(fontWeight: FontWeight.normal)
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelStyle: TextStyle(fontWeight: FontWeight.normal)
                           ),
-                        ),
+                        ],
                       ),
 
                       //-------------------------
                       //PRIORITY FIELD
                       //-------------------------
-                      SizedBox(
-                        width: 150,
-                        child: DropdownButtonFormField<Priority>(
-                          initialValue: widget.selectedTask.priority,
-                          items: _buildPriorityItems(),
-                          onChanged: (Priority? p) {
-                            if (p != null) {
-                              setState(() { _selectedPriority = p; });
-                            }
-                          },
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Priority", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold)),
+                          SizedBox(
+                            width: 150,
+                            child: DropdownButtonFormField<Priority>(
+                              initialValue: widget.selectedTask.priority,
+                              items: _buildPriorityItems(),
+                              onChanged: (Priority? p) {
+                                if (p != null) {
+                                  setState(() { _selectedPriority = p; });
+                                }
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelStyle: TextStyle(fontWeight: FontWeight.normal)
+                              ),
                             ),
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelStyle: TextStyle(fontWeight: FontWeight.normal)
                           ),
-                        ),
+                        ],
                       ),
                       
                     ],),
