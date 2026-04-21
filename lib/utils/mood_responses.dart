@@ -20,7 +20,7 @@ class MoodResponses{
 
   static final negStrongResponses = {
     0: "How about focusing your energy on a challenging task?",
-    1: "One of the best comebacks is to be fabulous and get things done!",
+    1: "Remember, this energy doesn't define you, so don't let it consume you. Find a practical way to use it to your advantage.",
     2: "Grandma remedy for upsetting emotions? Burn that energy on practical tasks. Less thinking, more doing.",
     3: "I feel you (this app was built with love but also tears). Don't give up!",
     4: "Take a deep breath. You're still here. Maybe grab a bite (often helps with big emotions) and come back for your tasks?"

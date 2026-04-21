@@ -25,6 +25,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   late final PomodoroRepository _pomoRepo;
   /// Track completed pomodoros per task
   Map<String, int> _completedPomodoros = {}; // task.id -> count
+  late ColorScheme colorScheme;
 
   //Data flow management
   bool _hasLoadedFromRepo = false;
@@ -62,6 +63,8 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
 
   @override
   Widget build(BuildContext context) {
+    colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         print("Pomodoro rebuild - tasks: ${(state is TaskSuccess) ? state.tasks.length : 'none'}",);
@@ -148,19 +151,20 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _showAppBar(context), //"App Bar" part
+                _showAppBar(context),
                 const SizedBox(height: 20),
 
                 _showLabel("Current Task", 14),
                 const SizedBox(height: 8),
 
                 _showTaskAndTimerBubble(context, currentTask),
-                const SizedBox(height: 24),
+                const SizedBox(height: 40),
         
-                _showLabel("Next Task", 12),
+                if(!_isRunning)
+                  _showLabel("Next Task", 12),
                 const SizedBox(height: 4),
-
-                _showNextTasksList(context, tasks, nextTasks),
+                if(!_isRunning)
+                  _showNextTasksList(context, tasks, nextTasks),
               ],
             ),
           ),
@@ -189,7 +193,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       style: TextStyle(
         fontSize: fontsize,
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).colorScheme.onSurface,
+        color: colorScheme.onSurface,
       ),
     );
   }
@@ -198,9 +202,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   Widget _showTaskAndTimerBubble(BuildContext context, Task task) {
     return Container(
       width: double.infinity,
+      height: _isRunning ? MediaQuery.of(context).size.height/1.5 : 400,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondary,
+        color: colorScheme.primary,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24),
           topRight: Radius.circular(48),
@@ -209,7 +214,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: colorScheme.shadow.withValues(alpha: 0.5),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -218,6 +223,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Row with task details + Start/Pause
           _buildTaskHeaderRow(context, task),
@@ -248,7 +254,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   decoration: task.isDone ? TextDecoration.lineThrough : null,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 4),
@@ -256,10 +262,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                 'Due: ${DateFormat('dd/MM/yyyy').format(task.dueDate)}',
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey[700],
+                  color: colorScheme.onSurface,
                 ),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 4),
 
               //Pomodoro count chip
               GestureDetector(
@@ -337,14 +343,14 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
           },
 
           style: ElevatedButton.styleFrom(
-            backgroundColor: task.isDone ? Colors.green : Colors.amber,
+            backgroundColor: task.isDone ? colorScheme.onPrimary : Colors.amber,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             minimumSize: const Size(70, 48),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topRight: Radius.circular(30)),
             ),
           ),
-          child: Text(task.isDone ? 'Not done?' : 'Done', style: TextStyle(fontSize: 14, color: Colors.black87)),
+          child: Text(task.isDone ? 'Not done?' : 'Done', style: TextStyle(fontSize: 14, color: task.isDone? colorScheme.onPrimaryContainer : Colors.black87)),
         )
       ],
     );
@@ -460,7 +466,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         }
       },
       style: TextButton.styleFrom(
-        backgroundColor: isActive ? Colors.grey[800] : Colors.transparent,
+        backgroundColor: isActive ? colorScheme.onPrimary : Colors.transparent,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -471,7 +477,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         style: TextStyle(
           fontSize: isActive ? 14 : 12,
           fontWeight: FontWeight.bold,
-          color: isActive ? Colors.white : Colors.grey[600],
+          color: isActive ? Colors.white : colorScheme.onPrimary,
         ),
       ),
     );
@@ -482,7 +488,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
     if (nextTasks.isEmpty) {
       return Text(
         'No more tasks in the queue.',
-        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+        style: TextStyle(fontSize: 12, color: colorScheme.primary),
       );
     }
 
@@ -498,10 +504,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
               contentPadding: const EdgeInsets.symmetric(horizontal: 0),
               leading: IconButton(
                 onPressed: () {
-                  //Toggle isDone ->update CompletionRate And Status, copy all variables to another object before using TaskBloc
                   _saveTaskState(task, true);
                 },
-                icon: Icon(Icons.check_circle, size: 32, color: task.isDone ? Theme.of(context).colorScheme.primary : Colors.grey,),
+                icon: Icon(Icons.check_circle, size: 32, color: task.isDone ? colorScheme.primary : Colors.grey),
               ),
               //--------------
               // NEXT TASK TITLE
@@ -555,7 +560,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                       style: TextStyle(
                         fontSize: 12, 
                         decoration: task.isDone ? TextDecoration.lineThrough : null,
-                        color:  Colors.grey[800],
+                        color:  colorScheme.onPrimaryContainer,
                         )
                     ),
                   ],
@@ -575,7 +580,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                 
                 child: Text(
                   '[${_getCompletedPomodoros(task.id)}/${_getPomodorosNeeded(task)}]',
-                  style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                  style: TextStyle(fontSize: 14, color: colorScheme.onPrimaryContainer),
                 ),
               ),            
             ),
