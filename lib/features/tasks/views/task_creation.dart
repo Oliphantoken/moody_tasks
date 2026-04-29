@@ -41,6 +41,8 @@ class _TaskCreationState extends State<TaskCreation> {
   Complexity? _selectedComplexity;
   Priority? _selectedPriority;
   bool isLoading = false;
+  bool isComplexityExpanded = false;
+  bool isPriorityExpanded = false;
 
   
 
@@ -51,7 +53,6 @@ class _TaskCreationState extends State<TaskCreation> {
     _selectedCategory = null;
     _selectedComplexity = Complexity.easy;
     _selectedPriority = null;
-
     
     super.initState();
   }
@@ -188,7 +189,7 @@ class _TaskCreationState extends State<TaskCreation> {
                         }
                         return null;
                       },
-                      style: TextStyle(color: colorScheme.onPrimary, fontSize: 18),
+                      style: TextStyle(color: colorScheme.onTertiary, fontSize: 18),
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -199,7 +200,6 @@ class _TaskCreationState extends State<TaskCreation> {
                         hintStyle: TextStyle(color: Colors.grey[800]),
                         contentPadding: EdgeInsetsGeometry.symmetric(horizontal: 16, vertical: 32),
                         filled: false,
-                        fillColor: Colors.grey[200],
                         constraints: BoxConstraints(maxWidth: 150, maxHeight: 150)),
                       )
                   ],),
@@ -318,13 +318,11 @@ class _TaskCreationState extends State<TaskCreation> {
                   child: DropdownButtonFormField<Complexity>(
                     initialValue: task.complexity,
                     items: _buildEnumItems(Complexity.values, (c)=>c.displayName),
-                    style: TextStyle(color: colorScheme.onPrimary),
+                    style: TextStyle(color: Colors.white),
                     dropdownColor: colorScheme.primary,
                     onChanged: (Complexity? c) {
                       if (c != null) {
-                        setState(() {
-                          _selectedComplexity = c;
-                        });
+                        setState(() { _selectedComplexity = c; });
                       }
                     },
                     decoration: InputDecoration(
@@ -333,7 +331,7 @@ class _TaskCreationState extends State<TaskCreation> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: colorScheme.primary,
                       labelStyle: TextStyle(fontWeight: FontWeight.normal)
                     ),
                   ),
@@ -353,11 +351,11 @@ class _TaskCreationState extends State<TaskCreation> {
                   child: DropdownButtonFormField<Priority>(
                     initialValue: task.priority,
                     items: _buildEnumItems(Priority.values, (p)=>p.displayName),
-                    style:  TextStyle(color: colorScheme.onPrimary),
+                    style: TextStyle(color: Colors.white),
                     dropdownColor: colorScheme.primary,
                     onChanged: (Priority? p) {
                       if (p != null) {
-                        setState(() { _selectedPriority = p; });
+                        setState(() { _selectedPriority = p;});
                       }
                     },
                     decoration: InputDecoration(
@@ -366,7 +364,7 @@ class _TaskCreationState extends State<TaskCreation> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: colorScheme.primary,
                       labelStyle: TextStyle(fontWeight: FontWeight.normal)
                     ),
                   ),
@@ -383,16 +381,18 @@ class _TaskCreationState extends State<TaskCreation> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Description", style: TextStyle(color: Colors.grey, fontSize: 10, fontWeight: FontWeight.bold),),
-              TextField(maxLines: 3, maxLength: 90, textAlign: TextAlign.start, controller: descController, decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                hintText: "In more details...",
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 12),
-                filled: true,
-                fillColor: Colors.white,
-              )
+              TextField(maxLines: 3, maxLength: 90, textAlign: TextAlign.start, controller: descController, 
+                style: TextStyle(color: colorScheme.onSecondary),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(12)
+                  ),
+                  hintText: "In more details...",
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 12),
+                  filled: true,
+                  fillColor: Colors.white,
+                )
               )
             ]
           ),                  
@@ -412,8 +412,8 @@ class _TaskCreationState extends State<TaskCreation> {
                   dueDate: dateController.text != "" ? task.dueDate : DateTime.now().add(Duration(days: 5)),
                   isDone: false,
                   category: _selectedCategory ?? task.category,
-                  priority: Priority.low,
-                  complexity: Complexity.easy,
+                  priority: _selectedPriority ?? task.priority,
+                  complexity: _selectedComplexity ?? task.complexity,
                   project: "",
                   tags: [],
                   status: TaskStatus.backlog,
@@ -531,8 +531,7 @@ class _TaskCreationState extends State<TaskCreation> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: isSelected ? colorScheme.primaryContainer: colorScheme.onPrimaryContainer,
-        border: Border.all(color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer),
+        color: isSelected ? colorScheme.onPrimaryContainer: colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -540,7 +539,7 @@ class _TaskCreationState extends State<TaskCreation> {
           IconButton(
             icon: categoryIcon,
             iconSize: 26,
-            color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
+            color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer,
             padding: EdgeInsets.only(bottom: 0),
             onPressed: onpressed?? () {
               setState(() {
@@ -548,7 +547,7 @@ class _TaskCreationState extends State<TaskCreation> {
               });
             },
           ),
-          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ?  colorScheme.onPrimaryContainer : colorScheme.onPrimary)),
+          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ?  colorScheme.primaryContainer : colorScheme.onPrimaryContainer)),
         ]
       ),
     );

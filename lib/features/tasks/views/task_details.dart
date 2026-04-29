@@ -144,7 +144,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                                     }
                                     return null;
                                   },
-                                style: TextStyle(color: colorScheme.onPrimary, fontSize: 18),
+                                style: TextStyle(color: colorScheme.onTertiary, fontSize: 18),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -273,7 +273,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                             child: DropdownButtonFormField<Complexity>(
                               initialValue: widget.selectedTask.complexity,
                               items: _buildComplexityItems(),
-                              style:  TextStyle(color: colorScheme.onPrimary),
+                              style:  TextStyle(color: Colors.white),
                               dropdownColor: colorScheme.primary,
                               onChanged: (Complexity? c) {
                                 if (c != null) {
@@ -286,7 +286,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Colors.white,
+                                fillColor: colorScheme.primary,
                                 labelStyle: TextStyle(fontWeight: FontWeight.normal)
                               ),
                             ),
@@ -306,20 +306,20 @@ class _TaskDetailsState extends State<TaskDetails> {
                             child: DropdownButtonFormField<Priority>(
                               initialValue: widget.selectedTask.priority,
                               items: _buildPriorityItems(),
+                              style: TextStyle(color: Colors.white),
                               dropdownColor: colorScheme.primary,
                               onChanged: (Priority? p) {
                                 if (p != null) {
                                   setState(() { _selectedPriority = p; });
                                 }
                               },
-                              style: TextStyle(color: colorScheme.onPrimary),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Colors.white,
+                                fillColor: colorScheme.primary,
                                 labelStyle: TextStyle(fontWeight: FontWeight.normal)
                               ),
                             ),
@@ -490,7 +490,7 @@ class _TaskDetailsState extends State<TaskDetails> {
               ),
               child: Text(
                 buttontext,
-                style: TextStyle(fontSize: 14, color: colorScheme.onPrimary),
+                style: TextStyle(fontSize: 14, color: Colors.white),
               ),
             ),
     );
@@ -503,8 +503,7 @@ class _TaskDetailsState extends State<TaskDetails> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: isSelected ? colorScheme.primaryContainer: colorScheme.onPrimaryContainer,
-        border: Border.all(color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer),
+        color: isSelected ? colorScheme.onPrimaryContainer: colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -512,7 +511,7 @@ class _TaskDetailsState extends State<TaskDetails> {
           IconButton(
             icon: categoryIcon,
             iconSize: 26,
-            color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
+            color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer,
             padding: EdgeInsets.only(bottom: 0),
             onPressed: onpressed?? () {
               setState(() {
@@ -520,7 +519,7 @@ class _TaskDetailsState extends State<TaskDetails> {
               });
             },
           ),
-          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onPrimary)),
+          Text(label, style: TextStyle(height: 0, fontSize: 11, fontWeight: FontWeight.bold, color: isSelected ? colorScheme.primaryContainer : colorScheme.onPrimaryContainer)),
         ]
       ),
     );

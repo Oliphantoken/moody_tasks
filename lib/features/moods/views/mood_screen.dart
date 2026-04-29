@@ -136,7 +136,7 @@ class _MoodScreenState extends State<MoodScreen> {
                       //Profile icon
                       Icon(MoodPresets.getMoodIcon[_selectedMood], color: iconColor),
                     ] : [
-                      Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: Theme.of(context).colorScheme.secondary)),
+                      Container( width: 40, height: 40, decoration: BoxDecoration(shape: BoxShape.circle, color: colorScheme.secondary)),
                       Icon(Icons.person, color: Colors.grey[900]),
                     ],
                   ),
@@ -150,8 +150,8 @@ class _MoodScreenState extends State<MoodScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   //Greeting
-                  Text("Welcome!", style: TextStyle( fontSize: 12, fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.outline)),
-                  Text(c.userName ?? "Moody Tasker!", style: TextStyle( fontSize: 18, fontWeight: FontWeight.w400, color: Theme.of(context).colorScheme.onSurface)),
+                  Text("Welcome", style: TextStyle( fontSize: 14, fontWeight: FontWeight.w600, color: colorScheme.outline)),
+                  Text(c.userName ?? "Moody Tasker!", style: TextStyle( fontSize: 18, fontWeight: FontWeight.w400, color: colorScheme.onSurface)),
                 ]
               ),
             ],
@@ -160,7 +160,7 @@ class _MoodScreenState extends State<MoodScreen> {
           //Right side: action buttons
           IconButton(
             icon: Icon(Icons.settings,
-            color: Theme.of(context).colorScheme.primary,),
+            color: colorScheme.primary,),
             onPressed: () { Navigator.pushNamed(context, '/appsettings'); }
           ),
         ],

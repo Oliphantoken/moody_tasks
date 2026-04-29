@@ -33,6 +33,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   late SoundPlayer soundPlayer;
 
   //Data flow management
+  bool _isSoundOn = true;
   bool _hasLoadedFromRepo = false;
   bool _isPomodorosListValid = false;
   bool _isValidatingPomodoros = false;
@@ -160,14 +161,14 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
                 _showAppBar(context),
                 const SizedBox(height: 20),
 
-                _showLabel("Current Task", 14),
+                _showLabel("Current Task", true, 14),
                 const SizedBox(height: 8),
 
                 _showTaskAndTimerBubble(context, currentTask),
                 const SizedBox(height: 40),
         
                 if(!_isRunning)
-                  _showLabel("Next Task", 12),
+                  _showLabel("Next Task", false, 12),
                 const SizedBox(height: 4),
                 if(!_isRunning)
                   _showNextTasksList(context, tasks, nextTasks),
@@ -193,15 +194,34 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
     );
   }
 
-  Widget _showLabel(String text, double fontsize) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: fontsize,
-        fontWeight: FontWeight.bold,
-        color: colorScheme.onSurface,
-      ),
-    );
+  Widget _showLabel(String text, bool soundCheck, double fontsize) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: fontsize,
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onSurface,
+          ),
+        ),
+        Row(
+          children: soundCheck ? [
+            Text(
+              'Sound',
+              style: TextStyle(
+                fontSize: fontsize,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            Checkbox(value: _isSoundOn, onChanged: (t){
+              _isSoundOn = !_isSoundOn;
+            })
+          ] : [],
+        )
+    ],);
   }
 
 
@@ -390,6 +410,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       setState(() {
         _isRunning = false;
       });
+
       //stop sfx
       soundPlayer.stopBeep();
 
@@ -406,8 +427,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
     }
     
     //PLAY TICK SFX
-    soundPlayer.playBeep(AUDIO.start);
-
+    if(_isSoundOn){
+      soundPlayer.playBeep(AUDIO.start);
+    }
     
     //_timer is not the seconds but the async function.
     // For every second
@@ -419,7 +441,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       if(_currentModeDuration > 0){
 
         //PLAY TICK SFX
-        soundPlayer.playBeep(AUDIO.tick);
+        if(_isSoundOn){
+          soundPlayer.playBeep(AUDIO.tick);
+        }
 
         setState(() {
           _currentModeDuration--;
@@ -495,7 +519,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         style: TextStyle(
           fontSize: isActive ? 14 : 12,
           fontWeight: FontWeight.bold,
-          color: isActive ? Colors.white : colorScheme.onPrimary,
+          color: isActive ? colorScheme.onPrimaryContainer : colorScheme.onPrimary,
         ),
       ),
     );
@@ -682,7 +706,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
 
   void _showCycleComplete() {
     //PLAY PING SOUND
-    soundPlayer.playBeep(AUDIO.end);
+    if(_isSoundOn){
+      soundPlayer.playBeep(AUDIO.end);
+    }
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
