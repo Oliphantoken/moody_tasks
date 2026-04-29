@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -7,9 +8,8 @@ import 'package:moody_tasks/screens/home/views/main_layout.dart';
 import 'package:moody_tasks/utils/pomodoro_FSM.dart';
 import 'package:pomodoro_repository/domain/repositories/pomodoro_repository_abstract.dart';
 import 'package:task_repository/domain/entities/task.dart';
-import 'dart:async';
-
 import 'package:task_repository/domain/value_types.dart';
+import 'package:moody_tasks/utils/sound_player.dart';
 
 class PomodoroScreen extends StatefulWidget {
   const PomodoroScreen({super.key});
@@ -25,7 +25,12 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   late final PomodoroRepository _pomoRepo;
   /// Track completed pomodoros per task
   Map<String, int> _completedPomodoros = {}; // task.id -> count
+  
+  //UI theme
   late ColorScheme colorScheme;
+
+  //Audio player
+  late SoundPlayer soundPlayer;
 
   //Data flow management
   bool _hasLoadedFromRepo = false;
@@ -48,6 +53,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   @override
   void initState(){
     super.initState();
+    soundPlayer = SoundPlayer();
     WidgetsBinding.instance.addObserver(this);  //Listen for app lifecycle
     _pomoRepo = getIt<PomodoroRepository>();
   }
@@ -384,6 +390,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       setState(() {
         _isRunning = false;
       });
+      //stop sfx
+      soundPlayer.stopBeep();
+
       return;
     }
 
@@ -396,6 +405,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       _isPaused = false;
     }
     
+    //PLAY TICK SFX
+    soundPlayer.playBeep(AUDIO.start);
+
+    
     //_timer is not the seconds but the async function.
     // For every second
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async{
@@ -404,9 +417,14 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
       // COUNT DOWN
       // ---------------------------
       if(_currentModeDuration > 0){
+
+        //PLAY TICK SFX
+        soundPlayer.playBeep(AUDIO.tick);
+
         setState(() {
           _currentModeDuration--;
         });
+
       }
       // ---------------------------
       // TIME'S UP
@@ -663,6 +681,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
 
 
   void _showCycleComplete() {
+    //PLAY PING SOUND
+    soundPlayer.playBeep(AUDIO.end);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('${_stateMachine.currentMode.name.toUpperCase()} complete!'),

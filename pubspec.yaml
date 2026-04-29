@@ -75,6 +75,9 @@ dependencies:
   # A simple service locator for Dart and Flutter projects.
   get_it: ^9.2.0
 
+  #Audio Player
+  audioplayers: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +107,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/icons/
+    - assets/sfx/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
