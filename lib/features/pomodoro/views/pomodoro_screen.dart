@@ -752,8 +752,6 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
   Future<void> _savePomodoroState() async {
     try{
       await _pomoRepo.savePomodoroState(_completedPomodoros, _currentTaskID);
-      print('✅ Pomodoro state saved');
-
     }catch(e){ print('Failed to save Pomodoro state: $e'); }
   }
 
@@ -782,7 +780,6 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         //3. Update task through BLoC
         context.read<TaskBloc>().add(UpdateTask(updatedTask, _currentTaskID));
       }
-      print('✅ Tasklist state saved');
 
     }catch(e){ print('Failed to save tasklist state: $e'); }
   }

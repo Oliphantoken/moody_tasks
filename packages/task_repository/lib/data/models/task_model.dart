@@ -41,8 +41,6 @@ class TaskModel {
 
   /// Convert from SQFLite DB Map row to model
   factory TaskModel.fromMap(Map<String, dynamic> map) {
-    // Quick sanity log (you can remove later)
-    //print('TaskModel.fromMap, id=${map['id']}, orderIndex=${map['orderIndex']}, status=${map['status']}');
 
   //Data validations
     if (map['id'] == null || (map['id'] as String).isEmpty) {
@@ -74,9 +72,6 @@ class TaskModel {
 
   ///Convert from model to Map (jsonEncode for SQFLite DB)
   Map<String, dynamic> toMap(){
-    //Remove later
-    // print('TaskModel.toMap, id=$id, orderIndex=$orderIndex, status=$status, isDone= $isDoneInt');
-
     return {
       'id': id,
       'title': title,
@@ -117,8 +112,6 @@ class TaskModel {
   
   ///Convert from model to entity
   Task toEntity(){
-    //print('TaskModel.toEntity: title=$title, priority=$priority, status=$status -> ${TaskStatusExtension.fromString(status)}, isDone= $isDoneInt');
-
     return Task(
       id: id,
       title: title,

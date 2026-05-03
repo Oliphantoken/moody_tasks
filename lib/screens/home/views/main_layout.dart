@@ -1,5 +1,4 @@
 //Flutter imports
-import 'dart:math';
 import 'package:config_repository/domain/entities/config.dart';
 import 'package:flutter/material.dart';
 import 'package:moody_tasks/config/injection.dart';
@@ -159,12 +158,7 @@ class MainLayoutState extends State<MainLayout> {
       await getIt<PomodoroRepository>().setCurrentPomodoroID(taskID);
       MainLayout.currentTask = taskID;
     } catch (e) { print('MainLayout: Problem setting current task into MainLayout: $e'); }
-  }
-
-  void moodTimer(){
-    
-  }
-  
+  } 
 
   
 }

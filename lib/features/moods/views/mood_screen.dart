@@ -55,9 +55,6 @@ class _MoodScreenState extends State<MoodScreen> {
 
         return BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
-          print(
-            "MoodScreen rebuild - tasks: ${(state is TaskSuccess) ? state.tasks.length : 'none'}",
-          );
           List<Task> tasks = [];
           if (state is TaskSuccess) tasks = state.tasks;
       
@@ -711,8 +708,8 @@ class _MoodScreenState extends State<MoodScreen> {
 
     if(c.timeSinceLastMoodSelection != null){
       final hoursPassed = DateTime.now()
-      .difference(c.timeSinceLastMoodSelection!).inSeconds;
-      if(hoursPassed >= 12){
+      .difference(c.timeSinceLastMoodSelection!).inHours;
+      if(hoursPassed >= 6){
         c.selectedMood = '';
         c.timeSinceLastMoodSelection = null;
       }

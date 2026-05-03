@@ -18,9 +18,7 @@ class TaskDbHelper {
   }
 
   Future<Database> _initDb() async {
-    final dbPath = await getDatabasesPath();
-    print('DB PATH: $dbPath'); // <-- check your console output
-    
+    final dbPath = await getDatabasesPath();    
     final path = join(dbPath, _dbName);
     return openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }

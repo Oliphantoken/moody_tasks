@@ -64,7 +64,6 @@ class LocalPomodoroRepository implements PomodoroRepository {
       final prefs = await SharedPreferences.getInstance();
       final pomodoros = await loadAllPomodoroCounts(prefs: prefs);
       final ret = pomodoros.remove(taskId);
-      print('REPO delete return: $ret');
       await prefs.setString(_countKey, jsonEncode(pomodoros));
       return ret;
     } catch (e) {
