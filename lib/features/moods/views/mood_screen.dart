@@ -60,8 +60,20 @@ class _MoodScreenState extends State<MoodScreen> {
       
           if(tasks.isEmpty){
             return SafeArea(
-            child: Center( child: Text('Welcome'))
-            );
+            child: Padding(
+              padding: EdgeInsetsGeometry.symmetric(vertical: 20, horizontal: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Welcome to Moody Tasks\n', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+                  Image.asset('assets/images/logo.png', scale: 5),
+                  Text('This is a todo app with a little twist: based on your mood, it suggests tasks from your todo list to help you get on with your day even when you don`t feel like it. It examines your tasks` category, complexity and priority to decide.\n\nFor the scatterhead, the app helps you stay focused with the popular Pomodoro timer (do look it up!)',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal)),
+                  Text('\nPress the plus sign to start adding tasks!',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))                
+                ]
+              )
+            ));
           }
       
           //Set currentTask
@@ -532,10 +544,10 @@ class _MoodScreenState extends State<MoodScreen> {
         response = "${MoodResponses.noTasksResponses[randomise.nextInt(MoodResponses.noTasksResponses.length)]}";
       }
       //If there are only 2 or less in the list, just return it
-      // else if(duelist.length < 3){
-      //   filteredTasks = duelist;
-      //   print("DUELIST 22222222222222");
-      // }
+      //  else if(duelist.length < 3){
+      //    filteredTasks = tasks;
+      //    print("LESS THAN 3 TASKS IN DUELIST");
+      //  }
       //There are more than 2 tasks in the duelist, let's sort them according to priority + mood criteria
       else { 
         response = "${moodType?.displayName}.\n";
@@ -579,6 +591,7 @@ class _MoodScreenState extends State<MoodScreen> {
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.moderate));
             if(filteredTasks.length < 2) filteredTasks.addAll(priolist.where((task) => task.complexity == Complexity.easy));
             
+            if(filteredTasks.length < 2) filteredTasks.addAll(priolist);
             break;
           }
 
@@ -687,9 +700,9 @@ class _MoodScreenState extends State<MoodScreen> {
           child:
             TextButton.icon(
               style: TextButton.styleFrom(
-                foregroundColor: colorScheme.onSurface,
+                backgroundColor: colorScheme.secondary,
                 elevation: 2,
-                shadowColor: colorScheme.shadow,
+                shadowColor: colorScheme.primary
               ),
               icon: Icon(Helper.getCategoryNameToIconData[task.category.name], color: Color(task.category.color),size: 30),
               onPressed: () async {
@@ -697,7 +710,7 @@ class _MoodScreenState extends State<MoodScreen> {
                 await state?.changeCurrentTask(task.id);
                 state?.changeScreen(SCREENS.pomodoro.index);  // safe call
               },
-              label: Text(task.title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),),
+              label: Text(task.title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: colorScheme.onPrimaryContainer)),
             ) 
         )
       ],

@@ -70,15 +70,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 40),
+
               Text('What do you want me to call you?', style: TextStyle(fontSize: 14)),
               _showTextFormfield(_usernameController, 0.4, 'User name', false, 10, Icons.person, fieldType: VALIDATIONTYPE.text),
           
               SizedBox(height: 40),
               
-              Text('Your weekly goal for minimum work hours:', style: TextStyle(fontSize: 14)),
+              Text('How many hours worth of tasks do you want to complete this week?', style: TextStyle(fontSize: 14)),
               _showTextFormfield(_weeklyGoalController, 0.4, '10', false, 10, Icons.timer, fieldType: VALIDATIONTYPE.number, keyboardType: TextInputType.numberWithOptions(decimal: true)),
           
-              SizedBox(height: 100),
+              SizedBox(height: 40),
 
               Text('Which colour scheme do you want to use?', style: TextStyle(fontSize: 14)),
               DropdownMenuFormField(
@@ -96,7 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [ _showSaveButton(saveLabel, 0.4) ]
-              )
+              ),
             ],
           ),
         ),
@@ -123,9 +125,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         validator: (value){
           switch(fieldType){
             case VALIDATIONTYPE.text:
-              if (value == null || value.trim().isEmpty) {
-                return 'This needs a text!';
-              } 
               return null;
             case VALIDATIONTYPE.number:
               // Handle null/empty (optional field) - return null (valid)

@@ -86,7 +86,24 @@ class _PomodoroScreenState extends State<PomodoroScreen> with WidgetsBindingObse
         //1. If no tasks
         if(state is! TaskSuccess || tasks.isEmpty){
           return SafeArea(
-            child: Center( child: Text('Hi there!\nCreate a task and start working on it!'))
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Create a task to see the Pomodoro timer!', textAlign: TextAlign.center, 
+                    style: TextStyle(fontSize: 24, color: Colors.grey[600])),
+                  SizedBox(height: 16),
+                  Image.asset('assets/icons/ms_bunny00.png', scale: 2),
+                  SizedBox(height: 16),
+                  Text('A Pomodoro timer works by breaking your task duration in units of 25 mins.\n\nEach unit is followed by a 5 minute break. After every 4th unit - 2 hours - you`ll have a nice and guilty-free 30 minute break instead!',
+                    style: TextStyle(fontSize: 18, color: Colors.grey[600])),
+                  SizedBox(height: 64),
+                  Text('Press the + sign to create a task!',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.grey[600]))
+                ]
+              ),
+            )
           );
         }
         

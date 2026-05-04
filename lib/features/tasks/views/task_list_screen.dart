@@ -384,7 +384,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                 task.title,
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color: colorScheme.onSurface,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -405,9 +405,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                     "Due ${DateFormat('dd.MM.yy').format(task.dueDate)} index: ${task.orderIndex}",
                                     style: TextStyle(
                                       fontSize: 10,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onSurface,
+                                      color: colorScheme.onSurface,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -429,7 +427,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                 task.duration.toStringAsFixed(0),
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color: colorScheme.onSurface,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -438,7 +436,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                 "mins",
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: Theme.of(context).colorScheme.onSurface,
+                                  color: colorScheme.onSurface,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
@@ -461,18 +459,19 @@ class _TaskListScreenState extends State<TaskListScreen> {
           );
   }
   
-  Center _introMessage(BuildContext context) {
-    return const Center(
+  Padding _introMessage(BuildContext context) {
+    return Padding(
+      padding:EdgeInsetsGeometry.all(40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.inbox_outlined, size: 80, color: Colors.grey),
+          Image.asset('assets/icons/mr_fox00_transparent1.png', scale: 2),
           SizedBox(height: 16),
-          Text('No tasks yet!', 
-            style: TextStyle(fontSize: 18, color: Colors.grey)),
-          Text('Create your first task!', 
-            style: TextStyle(fontSize: 14, color: Colors.grey)),
-        ],
+          Text('No tasks yet', 
+            style: TextStyle(fontSize: 24, color: Colors.grey[600])),
+          Text('\nOnce you create your tasks, you will be able to view your todo list here and filter your tasks so you can keep track of priorities and deadlines', 
+            style: TextStyle(fontSize: 18, color: Colors.grey[700])),
+        ]
       ),
     );
   }
