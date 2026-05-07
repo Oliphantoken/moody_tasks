@@ -23,7 +23,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   String selectedView = 'All'; // Default selected filter
   final filteredTasks = [];
   String currentTask = ""; 
-  var colorScheme; 
+  late ColorScheme colorScheme; 
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
   ///If state is failure
   Widget showFailure(TaskFailure state) {
-    //return Center(child: Text('Error: ${state.errorMessage}'));
     return AppErrorWidget(
       message: state.errorMessage,
       onRetry: () => context.read<TaskBloc>().add(LoadTasks()),
@@ -299,13 +298,8 @@ class _TaskListScreenState extends State<TaskListScreen> {
           }
           final tasksCopy = List<Task>.from(filteredTasks);
           final Task item = tasksCopy.removeAt(oldIndex);
-          //final Task item = filteredTasks.removeAt(oldIndex);
           tasksCopy.insert(newIndex, item);
-          //filteredTasks.insert(newIndex, item);
           context.read<TaskBloc>().add(UpdateTaskOrder(tasksCopy, currentTask ));
-          //context.read<TaskBloc>().add(UpdateTaskOrder(filteredTasks, currentTask));
-            
-          //setState((){}); //Refresh filter display
         },
           
         children: [
@@ -402,7 +396,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                   ),
                                   SizedBox(width: 3),
                                   Text(
-                                    "Due ${DateFormat('dd.MM.yy').format(task.dueDate)} index: ${task.orderIndex}",
+                                    "Due ${DateFormat('dd.MM.yy').format(task.dueDate)}",
                                     style: TextStyle(
                                       fontSize: 10,
                                       color: colorScheme.onSurface,
