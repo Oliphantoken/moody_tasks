@@ -1,8 +1,15 @@
+# Moody Tasks
+
 <img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/logo.png" width="150" align="left">
-Moody Tasks is a Task Management app that helps you focus and keep going with your tasks, any mood you may be in.
+
+A Task Management app that helps you focus and keep going with your tasks, any mood you may be in.
 
 In this <b>Flutter project</b>, I fused together previous knowledge and skills to undergo fullstack development in a systematic and productive manner.
 I had two goals with this app: to create something I need and would use, and to go from ideation to release.
+
+**DOWNLOAD:** the Android Beta version 1.0 is available here:
+[.apk file](https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/executable/MoodyTasks-release_05.05.2026.apk)
+
 <br />
 <br />
 
@@ -27,12 +34,11 @@ The app
 * Miro: for ideation, planning, designing, and wireframing of the project features, architecture, and UI layout
 * Perplexity.ai: as a senior AI mentor to guide me through, bounce ideas with, research concepts, code reviews and analysis
 * Github: for version control
-* Visual Studio Code: for app development
-* Tutorials/documentation websites/clips: to get Flutter package recommendations, or to better understand certain feature implementations
+* Microsoft Visual Studio Code: for app development
 
 <br />
 Further clarifications:
 
 * AI is used to HELP build the app, not to build the app for me, nor is there any AI inside the app
 * While a lot of care has been put into researching, task selection is not done with pure science in this app!
-* The app is still a work in progress, but a beta version will soon be available for Android phones!
+* The app is still a work in progress!
