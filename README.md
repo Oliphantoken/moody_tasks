@@ -31,7 +31,6 @@ The app
 * Tutorials/documentation websites/clips: to get Flutter package recommendations, or to better understand certain feature implementations
 
 <br />
-<br />
 Further clarifications:
 
 * AI is used to HELP build the app, not to build the app for me, nor is there any AI inside the app
