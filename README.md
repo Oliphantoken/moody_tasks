@@ -1,10 +1,16 @@
+<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/logo.png" width="150" align="left">
 Moody Tasks is a Task Management app that helps you focus and keep going with your tasks, any mood you may be in.
-![alt text](https://oliphantoken.github.io/assets/project-flutter.jpg "Placeholder")
-In this <b>Flutter project</b>, I fused together previous knowledge and skills to undergo fullstack development in a systematic and productive manner. 
+
+In this <b>Flutter project</b>, I fused together previous knowledge and skills to undergo fullstack development in a systematic and productive manner.
+I had two goals with this app: to create something I need and would use, and to go from ideation to release.
 <br />
 <br />
 
+<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/homepage.png" width="200" align="left">
+<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/pomodoro.png" width="200">
+
 ## Built with love, enthusiasm, and ADHD symptoms in mind
+
 The app
 * helps you pick a task based on your mood
 * features a Pomodoro timer, a technique to help you focus only on the task at hand
@@ -13,9 +19,11 @@ The app
 * allows you to sort and filter your tasks in multiple ways that may fit your mind frame
 
 <br />
-<br />
 
 ## Tools I used
+<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/mt_bg1.jpg" width="200" align="left">
+
+* Flutter: using Clean Architecture for both backend and frontend dev, BLoC for state management, getIt for DI, SQFLite database and SharedPreferences for data storage
 * Miro: for ideation, planning, designing, and wireframing of the project features, architecture, and UI layout
 * Perplexity.ai: as a senior AI mentor to guide me through, bounce ideas with, research concepts, code reviews and analysis
 * Github: for version control
