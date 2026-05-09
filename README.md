@@ -13,8 +13,10 @@ I had two goals with this app: to create something I need and would use, and to 
 <br />
 <br />
 
-<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/homepage.png" width="200" align="left">
-<img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/pomodoro.png" width="200">
+<p>
+  <img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/homepage.png" width="200" hspace="10">
+  <img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/pomodoro.png" width="200">
+</p>
 
 ## Built with love, enthusiasm, and ADHD symptoms in mind
 
