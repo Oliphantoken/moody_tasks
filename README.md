@@ -6,9 +6,15 @@ A Task Management app that helps you focus and keep going with your tasks, any m
 
 In this <b>Flutter project</b>, I fused together previous knowledge and skills to undergo fullstack development in a systematic and productive manner.
 I had two goals with this app: to create something I need and would use, and to go from ideation to release.
+<br />
+<br />
 
-**DOWNLOAD:** the Android Beta version 1.0 is available here:
+## Instructions
+1. **DOWNLOAD** the Beta version 1.0 to your Android phone from here
 [.apk file](https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/executable/MoodyTasks-release_05.05.2026.apk)
+2. On your phone, click on the downloaded .apk file to install. A popup might ask you to allow "Install from unknown sources". The popup will take you to the settings where you can set this for your download folder - you can change this back after this app has been installed.
+3. Go back to the .apk file and click it again to install it, this time it should install the app without a popup.
+Done! You can now find the app in your app library
 
 <br />
 <br />
@@ -18,9 +24,9 @@ I had two goals with this app: to create something I need and would use, and to 
   <img src="https://github.com/Oliphantoken/oliphantoken.github.io/blob/main/assets/moody_tasks/pomodoro.png" width="200">
 </p>
 
-## Built with love, enthusiasm, and ADHD symptoms in mind
+## Features
 
-The app
+Built with love, enthusiasm, and ADHD symptoms in mind, the app
 * helps you pick a task based on your mood
 * features a Pomodoro timer, a technique to help you focus only on the task at hand
 * reminds you of what you're _currently_ working on, not just all the tasks that are "in progress"
